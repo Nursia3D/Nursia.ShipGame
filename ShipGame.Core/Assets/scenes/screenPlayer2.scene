@@ -4,9 +4,9 @@
     "ViewAngle": 90.0,
     "NearPlaneDistance": 0.1,
     "FarPlaneDistance": 1000.0,
-    "Translation": "2.199505, 65.09313, -125.98263",
+    "Translation": "15.406117, 67.45188, -146.36389",
     "Scale": "1, 1, 1",
-    "Rotation": "324.2994, 186.3597, 0",
+    "Rotation": "324.78656, 184.19562, 0",
     "Children": []
   },
   "Root": {
@@ -46,6 +46,14 @@
       {
         "$type": "Nursia.Standard.SubsceneNode, Nursia",
         "NodePath": "playerSelectShip.scene",
+        "Translation": "-90, 0, 0",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.Standard.SubsceneNode, Nursia",
+        "NodePath": "playerSelectShip.scene",
+        "Translation": "90, 0, 0",
         "Scale": "1, 1, 1",
         "Children": []
       }

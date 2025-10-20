@@ -9,6 +9,8 @@
   <OpenFiles>
     <string>D:\Projects\Nursia.ShipGame\ShipGame.Core\Assets\Scenes\screenPlayer.scene</string>
     <string>D:\Projects\Nursia.ShipGame\ShipGame.Core\Assets\Scenes\ship1.scene</string>
+    <string>D:\Projects\Nursia.ShipGame\ShipGame.Core\Assets\Scenes\screenPlayer2.scene</string>
+    <string>D:\Projects\Nursia.ShipGame\ShipGame.Core\Assets\Scenes\playerSelectShip.scene</string>
   </OpenFiles>
   <ShowGrid>false</ShowGrid>
   <DrawBoundingBoxes>false</DrawBoundingBoxes>
