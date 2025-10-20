@@ -1,0 +1,32 @@
+{
+  "Camera": {
+    "$type": "Nursia.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "-17.237663, 28.359001, 39.99418",
+    "Scale": "1, 1, 1",
+    "Rotation": "331.7679, 345.17047, 0",
+    "Children": []
+  },
+  "Root": {
+    "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+    "Materials": [
+      [
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../powerups/energy_pwu_c.tga",
+          "SpecularTexturePath": "../powerups/energy_pwu_s.tga",
+          "NormalTexturePath": "../powerups/energy_pwu_n.tga"
+        }
+      ]
+    ],
+    "ModelPath": "../powerups/energy.glb",
+    "Scale": "1, 1, 1",
+    "Children": []
+  }
+}

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(MonoGameTargetFramework)</TargetFramework>
+    <DefineConstants>$(DefineConstants);MONOGAME</DefineConstants>
+    <OutputPath>bin\MonoGame.DesktopGL\$(Configuration)</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>../ShipGame.Core/ShipGame.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="$(AppMonoGameVersion)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShipGame.Core\ShipGame.Core.MonoGame.csproj" />
+  </ItemGroup>  
+</Project>

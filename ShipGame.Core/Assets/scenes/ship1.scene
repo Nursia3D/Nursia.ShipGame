@@ -1,0 +1,32 @@
+{
+  "Camera": {
+    "$type": "Nursia.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "-25.587278, 21.455526, -51.307873",
+    "Scale": "1, 1, 1",
+    "Rotation": "346.47827, 216.05775, 0",
+    "Children": []
+  },
+  "Root": {
+    "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+    "Materials": [
+      [
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../ships/ship1_c.tga",
+          "SpecularTexturePath": "../ships/ship1_s.tga",
+          "NormalTexturePath": "../ships/ship1_n.tga"
+        }
+      ]
+    ],
+    "ModelPath": "../ships/ship1.glb",
+    "Scale": "1, 1, 1",
+    "Children": []
+  }
+}

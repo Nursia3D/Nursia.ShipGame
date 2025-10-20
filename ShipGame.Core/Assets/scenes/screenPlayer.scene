@@ -1,0 +1,109 @@
+{
+  "Camera": {
+    "$type": "Nursia.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "-40.472767, 95.813194, 119.75526",
+    "Scale": "1, 1, 1",
+    "Rotation": "316.4495, 351.56845, 0",
+    "Children": []
+  },
+  "Root": {
+    "Scale": "1, 1, 1",
+    "Children": [
+      {
+        "$type": "Nursia.Cameras.PerspectiveCamera, Nursia",
+        "ViewAngle": 14.3,
+        "NearPlaneDistance": 1.0,
+        "FarPlaneDistance": 1000.0,
+        "Translation": "0, 240, -800",
+        "Scale": "1, 1, 1",
+        "Rotation": "344, 180, 0",
+        "Children": [],
+        "Id": "_camera"
+      },
+      {
+        "$type": "Nursia.Lights.PointLight, Nursia",
+        "Range": 1000.0,
+        "CastsShadow": false,
+        "Color": "White",
+        "Translation": "-100, 100, 30",
+        "Scale": "1, 1, 1",
+        "Children": [],
+        "Id": "_light1"
+      },
+      {
+        "$type": "Nursia.Lights.PointLight, Nursia",
+        "Range": 1000.0,
+        "CastsShadow": false,
+        "Color": "White",
+        "Translation": "100, -100, -30",
+        "Scale": "1, 1, 1",
+        "Children": [],
+        "Id": "_light2"
+      },
+      {
+        "$type": "Nursia.Standard.SubsceneNode, Nursia",
+        "NodePath": "ship1.scene",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+        "Materials": [
+          [
+            {
+              "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+              "DiffuseColor": "White",
+              "SpecularColor": "Black",
+              "SpecularPower": 250.0,
+              "EmissiveColor": "Black",
+              "DiffuseTexturePath": "../ships/pad_c.tga",
+              "SpecularTexturePath": "../ships/pad_s.tga",
+              "NormalTexturePath": "../ships/pad_n.tga"
+            }
+          ]
+        ],
+        "ModelPath": "../ships/pad.glb",
+        "Translation": "0, -40, 0",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+        "Materials": [
+          [
+            {
+              "$type": "Nursia.Standard.UnlitMaterial, Nursia",
+              "TexturePath": "../ships/pad_halo.tga",
+              "DiffuseColor": "White",
+              "BlendMode": "Additive"
+            }
+          ]
+        ],
+        "ModelPath": "../ships/pad_halo.glb",
+        "Translation": "0, -40, 0",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+        "Materials": [
+          [
+            {
+              "$type": "Nursia.Standard.UnlitMaterial, Nursia",
+              "TexturePath": "../ships/pad_select.tga",
+              "DiffuseColor": "White",
+              "BlendMode": "Transparent"
+            }
+          ]
+        ],
+        "ModelPath": "../ships/pad_select.glb",
+        "Translation": "0, -10, 0",
+        "Scale": "1, 1, 1",
+        "Children": []
+      }
+    ]
+  }
+}

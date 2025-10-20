@@ -1,0 +1,142 @@
+{
+  "Camera": {
+    "$type": "Nursia.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "183.78188, -361.2241, -257.47217",
+    "Scale": "1, 1, 1",
+    "Rotation": "0.7605236, 135.29866, 0",
+    "Children": []
+  },
+  "Root": {
+    "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+    "Materials": [
+      [
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/floor_c.tga",
+          "SpecularTexturePath": "../levels/level2/floor_s.tga",
+          "NormalTexturePath": "../levels/level2/floor_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/piping_c.tga",
+          "SpecularTexturePath": "../levels/level2/piping_s.tga",
+          "NormalTexturePath": "../levels/level2/piping_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/ceilingLights_c.tga",
+          "SpecularTexturePath": "../levels/level2/ceilingLights_s.tga",
+          "NormalTexturePath": "../levels/level2/ceilingLights_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/circularLight_c.tga",
+          "SpecularTexturePath": "../levels/level2/circularLight_s.tga",
+          "NormalTexturePath": "../levels/level2/circularLight_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/supportLights_c.tga",
+          "SpecularTexturePath": "../levels/level2/supportLights_s.tga",
+          "NormalTexturePath": "../levels/level2/supportLights_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/spaceTile_c.tga",
+          "SpecularTexturePath": "../levels/level2/spaceTile_s.tga",
+          "NormalTexturePath": "../levels/level2/spaceTile_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/trimTile_c.tga",
+          "SpecularTexturePath": "../levels/level2/trimTile_s.tga",
+          "NormalTexturePath": "../levels/level2/trimTile_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/pipe_c.tga",
+          "SpecularTexturePath": "../levels/level2/pipe_s.tga",
+          "NormalTexturePath": "../levels/level2/pipe_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/sidePanels_c.tga",
+          "SpecularTexturePath": "../levels/level2/sidePanels_s.tga",
+          "NormalTexturePath": "../levels/level2/sidePanels_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/trimTile_c.tga",
+          "SpecularTexturePath": "../levels/level2/trimTileLights_s.tga",
+          "NormalTexturePath": "../levels/level2/spaceTile_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/pillar_c.tga",
+          "SpecularTexturePath": "../levels/level2/pillar_s.tga",
+          "NormalTexturePath": "../levels/level2/pillar_n.tga"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level2/sidePanels_c.tga",
+          "SpecularTexturePath": "../levels/level2/sidePanels_s.tga",
+          "NormalTexturePath": "../levels/level2/sidePanels_n.tga"
+        }
+      ]
+    ],
+    "ModelPath": "../levels/level2/level2.glb",
+    "Scale": "1, 1, 1",
+    "Children": []
+  }
+}

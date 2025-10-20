@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <Authors>ShipGameTeam</Authors>
+    <Product>ShipGame</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/rds1983/ShipGameVariant</PackageProjectUrl>
+    <Description>My variant of MonoGame sample ShipGame that doesnt use Content Pipeline</Description>
+    <RootNamespace>ShipGame</RootNamespace>
+    <MonoGameTargetFramework>net8.0</MonoGameTargetFramework>
+    <FNATargetFramework>net8.0</FNATargetFramework>
+    <Version>1.0.0</Version>
+    <MonoGameVersion>3.8.0.1641</MonoGameVersion>
+    <AppMonoGameVersion>3.8.4</AppMonoGameVersion>
+    <DigitalRiseModelVersion>0.6.0</DigitalRiseModelVersion>
+    <XNAssetsVersion>0.7.7</XNAssetsVersion>
+  </PropertyGroup>
+</Project>

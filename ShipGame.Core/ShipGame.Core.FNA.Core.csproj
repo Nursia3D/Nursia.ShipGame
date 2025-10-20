@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(FNATargetFramework)</TargetFramework>
+    <DefineConstants>$(DefineConstants);FNA</DefineConstants>
+    <OutputPath>bin\FNA\$(Configuration)</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Nursia\Source\Nursia\Nursia.FNA.Core.csproj" />
+    <ProjectReference Include="..\..\XNAssets\src\XNAssets.FontStashSharp\XNAssets.FontStashSharp.FNA.Core.csproj" />
+    <ProjectReference Include="..\ShipGame.Dependencies\BoxCollider\BoxCollider.FNA.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

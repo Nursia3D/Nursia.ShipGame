@@ -1,0 +1,81 @@
+{
+  "Camera": {
+    "$type": "Nursia.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "1186.1877, -52.515625, 6.067131",
+    "Scale": "1, 1, 1",
+    "Rotation": "358.373, 163.6092, 0",
+    "Children": []
+  },
+  "Root": {
+    "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+    "Materials": [
+      [
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level1/conc1_c.jpg",
+          "SpecularTexturePath": "../levels/level1/conc1_s.jpg",
+          "NormalTexturePath": "../levels/level1/conc1_n.jpg"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level1/fence_c.jpg",
+          "SpecularTexturePath": "../levels/level1/fence_s.jpg",
+          "NormalTexturePath": "../levels/level1/fence_n.jpg"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level1/conc2_c.jpg",
+          "SpecularTexturePath": "../levels/level1/conc2_s.jpg",
+          "NormalTexturePath": "../levels/level1/conc2_n.jpg"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level1/grate_c.jpg",
+          "SpecularTexturePath": "../levels/level1/grate_s.jpg",
+          "NormalTexturePath": "../levels/level1/grate_n.jpg"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level1/lava_c.jpg",
+          "SpecularTexturePath": "../levels/level1/lava_s.jpg",
+          "NormalTexturePath": "../levels/level1/lava_n.jpg"
+        },
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../levels/level1/ybline_c.jpg",
+          "SpecularTexturePath": "../levels/level1/ybline_s.jpg"
+        }
+      ]
+    ],
+    "ModelPath": "../levels/level1/level1.glb",
+    "Scale": "1, 1, 1",
+    "Children": []
+  }
+}

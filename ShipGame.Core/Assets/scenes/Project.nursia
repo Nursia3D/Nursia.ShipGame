@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<State xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Size>
+    <X>2560</X>
+    <Y>1369</Y>
+  </Size>
+  <TopSplitterPosition>0.2</TopSplitterPosition>
+  <LeftSplitterPosition>0.5</LeftSplitterPosition>
+  <OpenFiles>
+    <string>D:\Projects\Nursia.ShipGame\ShipGame.Core\Assets\Scenes\screenPlayer.scene</string>
+    <string>D:\Projects\Nursia.ShipGame\ShipGame.Core\Assets\Scenes\ship1.scene</string>
+  </OpenFiles>
+  <ShowGrid>false</ShowGrid>
+  <DrawBoundingBoxes>false</DrawBoundingBoxes>
+  <DrawLightViewFrustum>false</DrawLightViewFrustum>
+  <DrawShadowMap>false</DrawShadowMap>
+  <ShowCameraPosition>true</ShowCameraPosition>
+</State>

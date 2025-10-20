@@ -1,0 +1,32 @@
+{
+  "Camera": {
+    "$type": "Nursia.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "-24.750507, 14.947682, 26.2355",
+    "Scale": "1, 1, 1",
+    "Rotation": "343.40466, 329.5987, 0",
+    "Children": []
+  },
+  "Root": {
+    "$type": "Nursia.Standard.NursiaModelNode, Nursia",
+    "Materials": [
+      [
+        {
+          "$type": "Nursia.Standard.DefaultMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../projectiles/Missile_c.tga",
+          "SpecularTexturePath": "../projectiles/Missile_s.tga",
+          "NormalTexturePath": "../projectiles/Missile_n.tga"
+        }
+      ]
+    ],
+    "ModelPath": "../projectiles/missile.glb",
+    "Scale": "1, 1, 1",
+    "Children": []
+  }
+}
