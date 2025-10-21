@@ -10,6 +10,7 @@
 #region Using Statements
 using AssetManagementBase;
 using Microsoft.Xna.Framework;
+using Nursia;
 using System;
 using System.IO;
 using System.Reflection;
@@ -79,6 +80,8 @@ namespace ShipGame
 		/// </summary>
 		protected override void LoadContent()
 		{
+			Nrs.Game = this;
+
 			font = new FontManager(graphics.GraphicsDevice);
 			screen = new ScreenManager(this, font, game);
 

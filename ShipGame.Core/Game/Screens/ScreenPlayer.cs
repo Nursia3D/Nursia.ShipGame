@@ -14,6 +14,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nursia;
+using Nursia.Rendering;
 using Nursia.Standard;
 using System;
 using System.IO;
@@ -32,20 +34,12 @@ namespace ShipGame
 		String[] ships = new String[NumberShips] { "ship2", "ship1" };
 
 		// model for each ship
-		NursiaModelNode[] shipModels = new NursiaModelNode[NumberShips];
-
-		NursiaModelNode padModel;           // ship pad model
-		NursiaModelNode padHaloModel;       // ship pad halo model
-		NursiaModelNode padSelectModel;     // ship pad select model
-
 		Texture2D textureChangeShip;      // change ship texture
 		Texture2D textureRotateShip;      // rotate ship texture
 		Texture2D textureSelectBack;      // select and back texture
 		Texture2D textureSelectCancel;    // select and cancel texture
 		Texture2D textureInvertYCheck;    // checked invert y texture
 		Texture2D textureInvertYUncheck;  // unchecked invert y texture
-
-		LightList lights;     // lights for scene
 
 		static TextureCube reflectCube;
 
@@ -59,10 +53,13 @@ namespace ShipGame
 		uint invertY = 0;
 
 		// rotation matrix for each player ship model
-		Matrix[] rotation = new Matrix[2] { Matrix.Identity, Matrix.Identity };
+		float[] rotation = new float[2];
 
 		// total elapsed time for ship model rotation
 		float elapsedTime = 0.0f;
+
+		SceneNode _sceneOnePlayer, _sceneTwoPlayers;
+		ForwardRenderer _renderer = new ForwardRenderer();
 
 		// constructor
 		public ScreenPlayer(ScreenManager manager, GameManager game)
@@ -81,20 +78,11 @@ namespace ShipGame
 				confirmed[0] = false;
 				confirmed[1] = (gameManager.GameMode == GameMode.SinglePlayer);
 
-				rotation[0] = Matrix.Identity;
-				rotation[1] = Matrix.Identity;
+				rotation[0] = 0.0f;
+				rotation[1] = 0.0f;
 
-				lights = LightList.Load(content, "screens/player_lights.xml");
-
-				for (int i = 0; i < NumberShips; i++)
-				{
-					shipModels[i] = content.LoadModel($"ships/{ships[i]}");
-					FixupShip(shipModels[i], "ships/" + ships[i]);
-				}
-
-				padModel = content.LoadModel("ships/pad");
-				padHaloModel = content.LoadModel("ships/pad_halo");
-				padSelectModel = content.LoadModel("ships/pad_select");
+				_sceneOnePlayer = content.LoadScene("scenes/screenPlayer.scene").Root;
+				_sceneTwoPlayers = content.LoadScene("scenes/screenPlayer2.scene").Root;
 
 				textureChangeShip = content.LoadTexture2DDefault(gd, "screens/change_ship.tga");
 				textureRotateShip = content.LoadTexture2DDefault(gd, "screens/rotate_ship.tga");
@@ -106,15 +94,6 @@ namespace ShipGame
 			else // loosing focus
 			{
 				// free all resources
-				lights = null;
-
-				for (int i = 0; i < NumberShips; i++)
-					shipModels[i] = null;
-
-				padModel = null;
-				padHaloModel = null;
-				padSelectModel = null;
-
 				textureChangeShip = null;
 				textureRotateShip = null;
 				textureSelectBack = null;
@@ -168,7 +147,8 @@ namespace ShipGame
 						RotX += rotationVelocity * elapsedTime;
 					if (Math.Abs(RotX) < 0.001f)
 						RotX = -0.5f * elapsedTime;
-					rotation[i] = rotation[i] * Matrix.CreateRotationY(RotX);
+
+					rotation[i] += RotX;
 
 					// change ship (next)
 					if (input.IsKeyPressed(i, Keys.Up) ||
@@ -232,148 +212,58 @@ namespace ShipGame
 			// draw background animation
 			screenManager.DrawBackground(gd);
 
-			// screen aspect
-			float aspect = (float)gd.Viewport.Width / (float)gd.Viewport.Height;
-
-			// camera position
-			Vector3 cameraPosition = new Vector3(0, 240, -800);
-
-			// view and projection matrices
-			Matrix view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-			Matrix projection =
-				Matrix.CreatePerspectiveFieldOfView(0.25f, aspect, 1, 1000);
-			Matrix viewProjection = view * projection;
-
-			// translation matrix
-			Matrix transform = Matrix.CreateTranslation(0, -40, 0);
-
-			// if single player mode
+			SceneNode scene;
 			if (gameManager.GameMode == GameMode.SinglePlayer)
 			{
-				// draw ship model
-				gameManager.DrawModel(gd, shipModels[selection[0]],
-					RenderTechnique.NormalMapping,
-					cameraPosition, rotation[0], viewProjection, lights);
-				// draw pad model
-				gameManager.DrawModel(gd, padModel,
-					RenderTechnique.NormalMapping,
-					cameraPosition, transform, viewProjection, lights);
+				scene = _sceneOnePlayer;
 
-				// set additive blend
-				gd.DepthStencilState = DepthStencilState.DepthRead;
-				gd.BlendState = BlendState.Additive;
-
-
-				// disable glow (zero in alpha)
-				//gd.RenderState.SeparateAlphaBlendEnabled = true;
-				//gd.RenderState.AlphaBlendOperation = BlendFunction.Add;
-				//gd.RenderState.AlphaSourceBlend = Blend.Zero;
-				//gd.RenderState.AlphaDestinationBlend = Blend.Zero;
-
-				// draw pad halo model
-				gameManager.DrawModel(gd, padHaloModel, RenderTechnique.PlainMapping,
-					cameraPosition, transform, viewProjection, null);
-
-				// enable glow (alpha not zero)
-				//gd.RenderState.SeparateAlphaBlendEnabled = false;
-				gd.BlendState = BlendState.AlphaBlend;
+				var ship = scene.QueryFirstById("_select").QueryFirstById("_ship");
+				var r = ship.Rotation;
+				r.Y = MathHelper.ToDegrees(rotation[0]);
+				ship.Rotation = r;
 
 				// if not confirmed, draw animated selection circle
-				if (confirmed[0] == false)
+				if (!confirmed[0])
 				{
-					transform = Matrix.CreateRotationY(elapsedTime);
+					var padSelect = scene.QueryFirstById("_select").QueryFirstById("_padSelect");
+					var rotation = padSelect.Rotation;
+					rotation.Y = MathHelper.ToDegrees(elapsedTime);
+					padSelect.Rotation = rotation;
+
 					float scale = 1.0f + 0.03f * (float)Math.Cos(elapsedTime * 7);
-					transform = transform * Matrix.CreateScale(scale);
-					transform.M42 = -10;
-					gameManager.DrawModel(gd, padSelectModel,
-						RenderTechnique.PlainMapping, cameraPosition, transform,
-						viewProjection, null);
+					padSelect.Scale = new Vector3(scale, scale, scale);
 				}
-
-				// restore blend modes
-				gd.DepthStencilState = DepthStencilState.Default;
-				gd.BlendState = BlendState.Opaque;
 			}
-			else // if multi player mode
+			else
 			{
-				Matrix transform1 = rotation[0] * Matrix.CreateTranslation(90, 0, 0);
-				Matrix transform2 = rotation[1] * Matrix.CreateTranslation(-90, 0, 0);
-
-				// draw ship model for player 1
-				gameManager.DrawModel(gd, shipModels[selection[0]],
-					RenderTechnique.NormalMapping,
-					cameraPosition, transform1, viewProjection, lights);
-				// draw ship model for player 2
-				gameManager.DrawModel(gd, shipModels[selection[1]],
-					RenderTechnique.NormalMapping,
-					cameraPosition, transform2, viewProjection, lights);
-
-				// draw pad model for player 1
-				transform.M41 = 90;
-				gameManager.DrawModel(gd, padModel, RenderTechnique.NormalMapping,
-					cameraPosition, transform, viewProjection, lights);
-
-				// draw pad model for player 2
-				transform.M41 = -90;
-				gameManager.DrawModel(gd, padModel, RenderTechnique.NormalMapping,
-					cameraPosition, transform, viewProjection, lights);
-
-				// set additive blend
-				gd.DepthStencilState = DepthStencilState.DepthRead;
-				gd.BlendState = BlendState.Additive;
-
-				// disable glow (zero in alpha)
-				//gd.RenderState.SeparateAlphaBlendEnabled = true;
-				//gd.RenderState.AlphaBlendOperation = BlendFunction.Add;
-				//gd.RenderState.AlphaSourceBlend = Blend.Zero;
-				//gd.RenderState.AlphaDestinationBlend = Blend.Zero;
-
-				// draw pad halo model for player 1
-				transform.M41 = 90;
-				gameManager.DrawModel(gd, padHaloModel, RenderTechnique.NormalMapping,
-					cameraPosition, transform, viewProjection, null);
-
-				// draw pad halo model for player 2
-				transform.M41 = -90;
-				gameManager.DrawModel(gd, padHaloModel, RenderTechnique.NormalMapping,
-					cameraPosition, transform, viewProjection, null);
-
-				// enable glow (alpha not zero)
-				//gd.RenderState.SeparateAlphaBlendEnabled = false;
-				gd.BlendState = BlendState.AlphaBlend;
-
-
+				scene = _sceneTwoPlayers;
 				// if not confirmed, draw animated selection circle for player 1
-				if (confirmed[0] == false)
+				if (!confirmed[0])
 				{
-					transform = Matrix.CreateRotationY(elapsedTime);
-					float scale = 0.9f + 0.03f * (float)Math.Cos(elapsedTime * 7);
-					transform = transform * Matrix.CreateScale(scale);
-					transform.M41 = 90;
-					transform.M42 = -10;
-					gameManager.DrawModel(gd, padSelectModel,
-						RenderTechnique.PlainMapping, cameraPosition, transform,
-						viewProjection, null);
+					var padSelect = scene.QueryFirstById("_select1").QueryFirstById("_padSelect");
+					var rotation = padSelect.Rotation;
+					rotation.Y = MathHelper.ToDegrees(elapsedTime);
+					padSelect.Rotation = rotation;
+
+					float scale = 1.0f + 0.03f * (float)Math.Cos(elapsedTime * 7);
+					padSelect.Scale = new Vector3(scale, scale, scale);
 				}
 
 				// if not confirmed, draw animated selection circle for player 2
-				if (confirmed[1] == false)
+				if (!confirmed[1])
 				{
-					transform = Matrix.CreateRotationY(elapsedTime);
-					float scale = 0.9f + 0.03f * (float)Math.Cos(elapsedTime * 7);
-					transform = transform * Matrix.CreateScale(scale);
-					transform.M41 = -90;
-					transform.M42 = -10;
-					gameManager.DrawModel(gd, padSelectModel,
-						RenderTechnique.PlainMapping, cameraPosition, transform,
-						viewProjection, null);
+					var padSelect = scene.QueryFirstById("_select2").QueryFirstById("_padSelect");
+					var rotation = padSelect.Rotation;
+					rotation.Y = MathHelper.ToDegrees(elapsedTime);
+					padSelect.Rotation = rotation;
+
+					float scale = 1.0f + 0.03f * (float)Math.Cos(elapsedTime * 7);
+					padSelect.Scale = new Vector3(scale, scale, scale);
 				}
-
-				// restore blend modes
-				gd.DepthStencilState = DepthStencilState.Default;
-				gd.BlendState = BlendState.Opaque;
-
 			}
+
+			var camera = scene.QueryFirstByType<Camera>();
+			_renderer.Render(scene, camera);
 		}
 
 		public override void Draw2D(GraphicsDevice gd, FontManager font)

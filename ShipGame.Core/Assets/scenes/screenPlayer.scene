@@ -4,7 +4,7 @@
     "ViewAngle": 90.0,
     "NearPlaneDistance": 0.1,
     "FarPlaneDistance": 1000.0,
-    "Translation": "2.199505, 65.09313, -125.98263",
+    "Translation": "2.131472, 65.53448, -126.593025",
     "Scale": "1, 1, 1",
     "Rotation": "324.2994, 186.3597, 0",
     "Children": []
@@ -20,8 +20,7 @@
         "Translation": "0, 240, -800",
         "Scale": "1, 1, 1",
         "Rotation": "344, 180, 0",
-        "Children": [],
-        "Id": "_camera"
+        "Children": []
       },
       {
         "$type": "Nursia.Lights.PointLight, Nursia",
@@ -30,8 +29,7 @@
         "Color": "White",
         "Translation": "-100, 100, 30",
         "Scale": "1, 1, 1",
-        "Children": [],
-        "Id": "_light1"
+        "Children": []
       },
       {
         "$type": "Nursia.Lights.PointLight, Nursia",
@@ -40,14 +38,14 @@
         "Color": "White",
         "Translation": "100, -100, -30",
         "Scale": "1, 1, 1",
-        "Children": [],
-        "Id": "_light2"
+        "Children": []
       },
       {
         "$type": "Nursia.Standard.SubsceneNode, Nursia",
         "NodePath": "playerSelectShip.scene",
         "Scale": "1, 1, 1",
-        "Children": []
+        "Children": [],
+        "Id": "_select"
       }
     ]
   }

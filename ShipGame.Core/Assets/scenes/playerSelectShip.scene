@@ -4,9 +4,9 @@
     "ViewAngle": 90.0,
     "NearPlaneDistance": 0.1,
     "FarPlaneDistance": 1000.0,
-    "Translation": "4.2361355, 53.020023, -77.2829",
+    "Translation": "7.89593, 58.993046, -82.91277",
     "Scale": "1, 1, 1",
-    "Rotation": "310.09042, 180.3533, 0",
+    "Rotation": "317.13693, 172.0307, 0",
     "Children": []
   },
   "Root": {
@@ -16,7 +16,8 @@
         "$type": "Nursia.Standard.SubsceneNode, Nursia",
         "NodePath": "ship1.scene",
         "Scale": "1, 1, 1",
-        "Children": []
+        "Children": [],
+        "Id": "_ship"
       },
       {
         "$type": "Nursia.Standard.NursiaModelNode, Nursia",
@@ -71,7 +72,8 @@
         "ModelPath": "../ships/pad_select.glb",
         "Translation": "0, -10, 0",
         "Scale": "1, 1, 1",
-        "Children": []
+        "Children": [],
+        "Id": "_padSelect"
       }
     ]
   }
