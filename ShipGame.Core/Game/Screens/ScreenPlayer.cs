@@ -59,6 +59,7 @@ namespace ShipGame
 		float elapsedTime = 0.0f;
 
 		SceneNode _sceneOnePlayer, _sceneTwoPlayers;
+		readonly SceneNode[] _sceneShips = new SceneNode[2];
 		ForwardRenderer _renderer = new ForwardRenderer();
 
 		// constructor
@@ -83,6 +84,11 @@ namespace ShipGame
 
 				_sceneOnePlayer = content.LoadScene("scenes/screenPlayer.scene").Root;
 				_sceneTwoPlayers = content.LoadScene("scenes/screenPlayer2.scene").Root;
+				_sceneShips[0] = content.LoadScene("scenes/ship1.scene").Root;
+				_sceneShips[0].Id = "_ship";
+
+				_sceneShips[1] = content.LoadScene("scenes/ship2.scene").Root;
+				_sceneShips[1].Id = "_ship";
 
 				textureChangeShip = content.LoadTexture2DDefault(gd, "screens/change_ship.tga");
 				textureRotateShip = content.LoadTexture2DDefault(gd, "screens/rotate_ship.tga");
@@ -156,6 +162,16 @@ namespace ShipGame
 						input.IsButtonPressedLeftStickUp(i))
 					{
 						selection[i] = (selection[i] + 1) % NumberShips;
+
+						if (i == 0)
+						{
+							((SubsceneNode)_sceneOnePlayer.QueryFirstById("_select").QueryFirstById("_ship")).Node = _sceneShips[selection[i]];
+							((SubsceneNode)_sceneTwoPlayers.QueryFirstById("_select1").QueryFirstById("_ship")).Node = _sceneShips[selection[i]];
+						} else if(i == 1)
+						{
+							((SubsceneNode)_sceneTwoPlayers.QueryFirstById("_select2").QueryFirstById("_ship")).Node = _sceneShips[selection[i]];
+						}
+
 						gameManager.PlaySound("menu_change");
 					}
 
@@ -165,9 +181,24 @@ namespace ShipGame
 						input.IsButtonPressedLeftStickDown(i))
 					{
 						if (selection[i] == 0)
+						{
 							selection[i] = NumberShips - 1;
+						}
 						else
+						{
 							selection[i] = selection[i] - 1;
+						}
+
+						if (i == 0)
+						{
+							((SubsceneNode)_sceneOnePlayer.QueryFirstById("_select").QueryFirstById("_ship")).Node = _sceneShips[selection[i]].Clone();
+							((SubsceneNode)_sceneTwoPlayers.QueryFirstById("_select1").QueryFirstById("_ship")).Node = _sceneShips[selection[i]].Clone();
+						}
+						else if (i == 1)
+						{
+							((SubsceneNode)_sceneTwoPlayers.QueryFirstById("_select2").QueryFirstById("_ship")).Node = _sceneShips[selection[i]].Clone();
+						}
+
 						gameManager.PlaySound("menu_change");
 					}
 				}
@@ -185,10 +216,14 @@ namespace ShipGame
 			if (confirmed[0] && confirmed[1])
 			{
 				if (gameManager.GameMode == GameMode.SinglePlayer)
+				{
 					gameManager.SetShips(ships[selection[0]], null, invertY);
+				}
 				else
-					gameManager.SetShips(ships[selection[0]],
-								ships[selection[1]], invertY);
+				{
+					gameManager.SetShips(ships[selection[0]], ships[selection[1]], invertY);
+				}
+
 				screenManager.SetNextScreen(ScreenType.ScreenLevel);
 			}
 		}
@@ -218,15 +253,15 @@ namespace ShipGame
 				scene = _sceneOnePlayer;
 
 				var ship = scene.QueryFirstById("_select").QueryFirstById("_ship");
-				var r = ship.Rotation;
-				r.Y = MathHelper.ToDegrees(rotation[0]);
-				ship.Rotation = r;
+				var rotation = ship.Rotation;
+				rotation.Y = MathHelper.ToDegrees(this.rotation[0]);
+				ship.Rotation = rotation;
 
 				// if not confirmed, draw animated selection circle
 				if (!confirmed[0])
 				{
 					var padSelect = scene.QueryFirstById("_select").QueryFirstById("_padSelect");
-					var rotation = padSelect.Rotation;
+					rotation = padSelect.Rotation;
 					rotation.Y = MathHelper.ToDegrees(elapsedTime);
 					padSelect.Rotation = rotation;
 
@@ -237,11 +272,17 @@ namespace ShipGame
 			else
 			{
 				scene = _sceneTwoPlayers;
+
+				var ship = scene.QueryFirstById("_select1").QueryFirstById("_ship");
+				var rotation = ship.Rotation;
+				rotation.Y = MathHelper.ToDegrees(this.rotation[0]);
+				ship.Rotation = rotation;
+
 				// if not confirmed, draw animated selection circle for player 1
 				if (!confirmed[0])
 				{
 					var padSelect = scene.QueryFirstById("_select1").QueryFirstById("_padSelect");
-					var rotation = padSelect.Rotation;
+					rotation = padSelect.Rotation;
 					rotation.Y = MathHelper.ToDegrees(elapsedTime);
 					padSelect.Rotation = rotation;
 
@@ -249,11 +290,16 @@ namespace ShipGame
 					padSelect.Scale = new Vector3(scale, scale, scale);
 				}
 
+				ship = scene.QueryFirstById("_select2").QueryFirstById("_ship");
+				rotation = ship.Rotation;
+				rotation.Y = MathHelper.ToDegrees(this.rotation[1]);
+				ship.Rotation = rotation;
+
 				// if not confirmed, draw animated selection circle for player 2
 				if (!confirmed[1])
 				{
 					var padSelect = scene.QueryFirstById("_select2").QueryFirstById("_padSelect");
-					var rotation = padSelect.Rotation;
+					rotation = padSelect.Rotation;
 					rotation.Y = MathHelper.ToDegrees(elapsedTime);
 					padSelect.Rotation = rotation;
 
