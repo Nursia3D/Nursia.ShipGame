@@ -8,21 +8,16 @@
 #endregion
 
 #region Using Statements
-using AssetManagementBase;
 using DigitalRiseModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 #endregion
 
 namespace ShipGame
 {
-	public class ScreenEnd : Screen
+	public class ScreenEnd : IScreen
 	{
-		ScreenManager screenManager;    // screen manager
-		GameManager gameManager;         // game manager
-
 		DrModel shipModel;          // winner player ship model
 
 		DrModel padModel;           // model for the ship pad
@@ -35,58 +30,47 @@ namespace ShipGame
 
 		float elapsedTime;        // elapsed time for rotation animation
 
-		// constructor
-		public ScreenEnd(ScreenManager manager, GameManager game)
+		public void Set()
 		{
-			screenManager = manager;
-			gameManager = game;
+			// load all resources
+			var gameManager = SG.GameManager;
+			int winner = gameManager.PlayerWinner;
+
+			var content = SG.Assets;
+			shipModel = content.LoadModel2($"ships/{gameManager.GetPlayerShip(winner)}");
+
+			padModel = content.LoadModel2("ships/pad");
+			padHaloModel = content.LoadModel2("ships/pad_halo");
+
+			lights = LightList.Load(content, "screens/end_lights.xml");
+
+			textureContinue = content.LoadTexture2DDefault("screens/continue.tga");
+			if (winner == 0)
+				texturePlayerWin = content.LoadTexture2DDefault("screens/player1_wins.tga");
+			else
+				texturePlayerWin = content.LoadTexture2DDefault("screens/player2_wins.tga");
 		}
 
-		// called before screen shows
-		public override void SetFocus(GraphicsDevice gd, AssetManager content, bool focus)
+		public void Unset()
 		{
-			// if getting focus
-			if (focus)
-			{
-				// load all resources
-				int winner = gameManager.PlayerWinner;
+			// free all resources
+			shipModel = null;
+			padModel = null;
+			padHaloModel = null;
 
-				shipModel = content.LoadModel(gd, $"ships/{gameManager.GetPlayerShip(winner)}");
+			lights = null;
 
-				padModel = content.LoadModel(gd, "ships/pad");
-				padHaloModel = content.LoadModel(gd, "ships/pad_halo");
-
-				lights = LightList.Load(content, "screens/end_lights.xml");
-
-				textureContinue = content.LoadTexture2DDefault(gd, "screens/continue.tga");
-				if (winner == 0)
-					texturePlayerWin = content.LoadTexture2DDefault(gd, "screens/player1_wins.tga");
-				else
-					texturePlayerWin = content.LoadTexture2DDefault(gd, "screens/player2_wins.tga");
-			}
-			else // loosing focus
-			{
-				// free all resources
-				shipModel = null;
-				padModel = null;
-				padHaloModel = null;
-
-				lights = null;
-
-				textureContinue = null;
-				texturePlayerWin = null;
-			}
+			textureContinue = null;
+			texturePlayerWin = null;
 		}
 
 		// process input
-		public override void ProcessInput(float elapsedTime, InputManager input)
+		public void ProcessInput(float elapsedTime)
 		{
-			if (input == null)
-			{
-				throw new ArgumentNullException("input");
-			}
-
+			var gameManager = SG.GameManager;
 			int i, j = (int)gameManager.GameMode;
+
+			var input = SG.InputManager;
 			for (i = 0; i < j; i++)
 			{
 				// Any key/button to go back
@@ -104,32 +88,28 @@ namespace ShipGame
 					input.IsKeyPressed(i, Keys.Escape) ||
 					input.IsKeyPressed(i, Keys.Space))
 				{
-					screenManager.SetNextScreen(ScreenType.ScreenIntro);
+					SG.ScreenManager.SetNextScreen(ScreenType.ScreenIntro);
 					gameManager.PlaySound("menu_cancel");
 				}
 			}
 		}
 
 		// update screen
-		public override void Update(float elapsedTime)
+		public void Update(float elapsedTime)
 		{
 			// accumulate elapsed time
 			this.elapsedTime += elapsedTime;
 		}
 
 		// draw 3D scene
-		public override void Draw3D(GraphicsDevice gd)
+		public void Draw3D()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
+			var gd = SG.GraphicsDevice;
 			// clear background
 			gd.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1, 0);
 
 			// draw background animation
-			screenManager.DrawBackground(gd);
+			SG.ScreenManager.DrawBackground();
 
 			// screen aspect
 			float aspect = (float)gd.Viewport.Width / (float)gd.Viewport.Height;
@@ -149,11 +129,12 @@ namespace ShipGame
 			Matrix translation = Matrix.CreateTranslation(0, -40, 0);
 
 			// draw ship model
-			gameManager.DrawModel(gd, shipModel, RenderTechnique.NormalMapping,
+			var gameManager = SG.GameManager;
+			gameManager.DrawModel(shipModel, RenderTechnique.NormalMapping,
 				cameraPosition, rotation, viewProjection, lights);
 
 			// draw pad model
-			gameManager.DrawModel(gd, padModel, RenderTechnique.NormalMapping,
+			gameManager.DrawModel(padModel, RenderTechnique.NormalMapping,
 				cameraPosition, translation, viewProjection, lights);
 
 			// set additive blend with no glow (zero on alpha)
@@ -167,7 +148,7 @@ namespace ShipGame
 			//gd.RenderState.AlphaDestinationBlend = Blend.Zero;
 
 			// draw pad halo model
-			gameManager.DrawModel(gd, padHaloModel, RenderTechnique.PlainMapping,
+			gameManager.DrawModel(padHaloModel, RenderTechnique.PlainMapping,
 				cameraPosition, translation, viewProjection, null);
 
 			// restore blend modes
@@ -176,15 +157,11 @@ namespace ShipGame
 		}
 
 		// draw 2D gui
-		public override void Draw2D(GraphicsDevice gd, FontManager font)
+		public void Draw2D(RenderContext2D context)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			Rectangle rect = new Rectangle(0, 0, 0, 0);
 
+			var gd = SG.GraphicsDevice;
 			int screenSizeX = gd.Viewport.Width;
 			int screenSizeY = gd.Viewport.Height;
 
@@ -193,7 +170,8 @@ namespace ShipGame
 			rect.Height = textureContinue.Height;
 			rect.Y = screenSizeY - rect.Height - 60;
 			rect.X = screenSizeX / 2 - rect.Width / 2;
-			screenManager.DrawTexture(textureContinue, rect,
+
+			context.DrawTexture(textureContinue, rect,
 				Color.White, BlendState.AlphaBlend);
 
 			// deaw winning player number
@@ -201,7 +179,7 @@ namespace ShipGame
 			rect.Height = texturePlayerWin.Height;
 			rect.Y = 20;
 			rect.X = screenSizeX / 2 - rect.Width / 2;
-			screenManager.DrawTexture(texturePlayerWin, rect,
+			context.DrawTexture(texturePlayerWin, rect,
 				Color.White, BlendState.AlphaBlend);
 		}
 	}

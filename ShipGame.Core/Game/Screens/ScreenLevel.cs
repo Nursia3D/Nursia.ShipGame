@@ -8,9 +8,7 @@
 #endregion
 
 #region Using Statements
-using AssetManagementBase;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -18,11 +16,8 @@ using System;
 
 namespace ShipGame
 {
-	public class ScreenLevel : Screen
+	public class ScreenLevel : IScreen
 	{
-		ScreenManager screenManager;    // screen manager
-		GameManager gameManager;         // game manager
-
 		const int NumberLevels = 2;   // number of available levels to choose from
 
 		// name for each level
@@ -36,46 +31,35 @@ namespace ShipGame
 
 		int selection = 0;
 
-		// constructor
-		public ScreenLevel(ScreenManager manager, GameManager game)
+		public void Set()
 		{
-			screenManager = manager;
-			gameManager = game;
+			var content = SG.Assets;
+
+			// load all resources
+			for (int i = 0; i < NumberLevels; i++)
+				levelShots[i] = content.LoadTexture2DDefault($"screens/{levels[i]}_screen.tga");
+			selectBack = content.LoadTexture2DDefault("screens/select_back.tga");
+			changeLevel = content.LoadTexture2DDefault("screens/change_level.tga");
 		}
 
-		// called before screen shows
-		public override void SetFocus(GraphicsDevice gd, AssetManager content, bool focus)
+		public void Unset()
 		{
-			// if getting focus
-			if (focus)
-			{
-				// load all resources
-				for (int i = 0; i < NumberLevels; i++)
-					levelShots[i] = content.LoadTexture2DDefault(gd, $"screens/{levels[i]}_screen.tga");
-				selectBack = content.LoadTexture2DDefault(gd, "screens/select_back.tga");
-				changeLevel = content.LoadTexture2DDefault(gd, "screens/change_level.tga");
-			}
-			else // loosing focus
-			{
-				// free all resources
-				for (int i = 0; i < NumberLevels; i++)
-					levelShots[i] = null;
-				selectBack = null;
-				changeLevel = null;
-			}
+			// free all resources
+			for (int i = 0; i < NumberLevels; i++)
+				levelShots[i] = null;
+			selectBack = null;
+			changeLevel = null;
 		}
 
-		public override void ProcessInput(float elapsedTime, InputManager input)
+		public void ProcessInput(float elapsedTime)
 		{
-			if (input == null)
-			{
-				throw new ArgumentNullException("input");
-			}
-
+			var input = SG.InputManager;
+			var gameManager = SG.GameManager;
 			int i, j = (int)gameManager.GameMode;
 			for (i = 0; i < j; i++)
 			{
 				// select
+				var screenManager = SG.ScreenManager;
 				if (input.IsKeyPressed(i, Keys.Enter) || input.IsButtonPressedA(i))
 				{
 					gameManager.SetLevel(levels[selection]);
@@ -114,31 +98,24 @@ namespace ShipGame
 			}
 		}
 
-		public override void Update(float elapsedTime)
+		public void Update(float elapsedTime)
 		{
 		}
 
-		public override void Draw3D(GraphicsDevice gd)
+		public void Draw3D()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
+			var gd = SG.GraphicsDevice;
 
 			// clear background
 			gd.Clear(Color.Black);
 
 			// draw background animation
-			screenManager.DrawBackground(gd);
+			SG.ScreenManager.DrawBackground();
 		}
 
-		public override void Draw2D(GraphicsDevice gd, FontManager font)
+		public void Draw2D(RenderContext2D context)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
+			var gd = SG.GraphicsDevice;
 			int screenSizeX = gd.Viewport.Width;
 			int screenSizeY = gd.Viewport.Height;
 
@@ -149,7 +126,8 @@ namespace ShipGame
 			rect.Height = levelShots[selection].Height;
 			rect.X = (screenSizeX - rect.Width) / 2;
 			rect.Y = (screenSizeY - rect.Height) / 2 + 30;
-			screenManager.DrawTexture(levelShots[selection], rect,
+
+			context.DrawTexture(levelShots[selection], rect,
 				Color.White, BlendState.AlphaBlend);
 
 			// draw back and select buttons
@@ -157,7 +135,7 @@ namespace ShipGame
 			rect.Height = selectBack.Height;
 			rect.X = (screenSizeX - rect.Width) / 2;
 			rect.Y = 30;
-			screenManager.DrawTexture(selectBack, rect,
+			context.DrawTexture(selectBack, rect,
 				Color.White, BlendState.AlphaBlend);
 
 			// draw change level text
@@ -165,7 +143,7 @@ namespace ShipGame
 			rect.Height = changeLevel.Height;
 			rect.X = (screenSizeX - rect.Width) / 2;
 			rect.Y = screenSizeY - rect.Height - 30;
-			screenManager.DrawTexture(changeLevel, rect,
+			context.DrawTexture(changeLevel, rect,
 				Color.White, BlendState.AlphaBlend);
 		}
 	}

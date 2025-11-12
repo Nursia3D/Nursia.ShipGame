@@ -8,9 +8,7 @@
 #endregion
 
 #region Using Statements
-using AssetManagementBase;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -18,11 +16,8 @@ using System;
 
 namespace ShipGame
 {
-	public class ScreenIntro : Screen
+	public class ScreenIntro : IScreen
 	{
-		ScreenManager screenManager;    // screen manager
-		GameManager gameManager;        // game manager
-
 		int menuSelection;              // current menu selection
 		float menuTime;                 // menu time for animation
 
@@ -43,68 +38,56 @@ namespace ShipGame
 		// menu textures with hover
 		Texture2D[] textureMenuHover = new Texture2D[NumberMenuItems];
 
-		// constructor
-		public ScreenIntro(ScreenManager manager, GameManager game)
+		public void Set()
 		{
-			screenManager = manager;
-			gameManager = game;
+			// load all resources
+			SG.GameManager.GameMode = GameMode.SinglePlayer;
+
+			var content = SG.Assets;
+			textureLogo = content.LoadTexture2DDefault("screens/intro_logo.tga");
+			textureLens = content.LoadTexture2DDefault("screens/intro_lens.tga");
+
+			textureCursorAnim = content.LoadTexture2DDefault("screens/cursor_anim.tga");
+			textureCursorArrow = content.LoadTexture2DDefault("screens/cursor_arrow.tga");
+			textureCursorBullet = content.LoadTexture2DDefault("screens/cursor_bullet.tga");
+
+			for (int i = 0; i < NumberMenuItems; i++)
+			{
+				textureMenu[i] = content.LoadTexture2DDefault($"screens/{menuNames[i]}.tga");
+				textureMenuHover[i] = content.LoadTexture2DDefault($"screens/{menuNames[i]}_hover.tga");
+			}
 		}
 
-		// called before screen shows or stops showing
-		public override void SetFocus(GraphicsDevice gd, AssetManager content, bool focus)
+		public void Unset()
 		{
-			// if getting focus
-			if (focus)
+			// free all resources
+			textureLogo = null;
+			textureLens = null;
+			textureCursorAnim = null;
+			textureCursorArrow = null;
+			textureCursorBullet = null;
+
+			for (int i = 0; i < NumberMenuItems; i++)
 			{
-				// load all resources
-				gameManager.GameMode = GameMode.SinglePlayer;
-
-				textureLogo = content.LoadTexture2DDefault(gd, "screens/intro_logo.tga");
-				textureLens = content.LoadTexture2DDefault(gd, "screens/intro_lens.tga");
-
-				textureCursorAnim = content.LoadTexture2DDefault(gd, "screens/cursor_anim.tga");
-				textureCursorArrow = content.LoadTexture2DDefault(gd, "screens/cursor_arrow.tga");
-				textureCursorBullet = content.LoadTexture2DDefault(gd, "screens/cursor_bullet.tga");
-
-				for (int i = 0; i < NumberMenuItems; i++)
-				{
-					textureMenu[i] = content.LoadTexture2DDefault(gd, $"screens/{menuNames[i]}.tga");
-					textureMenuHover[i] = content.LoadTexture2DDefault(gd, $"screens/{menuNames[i]}_hover.tga");
-				}
-			}
-			else // loosing focus
-			{
-				// free all resources
-				textureLogo = null;
-				textureLens = null;
-				textureCursorAnim = null;
-				textureCursorArrow = null;
-				textureCursorBullet = null;
-
-				for (int i = 0; i < NumberMenuItems; i++)
-				{
-					textureMenu[i] = null;
-					textureMenuHover[i] = null;
-				}
+				textureMenu[i] = null;
+				textureMenuHover[i] = null;
 			}
 		}
 
 		// process input
-		public override void ProcessInput(float elapsedTime, InputManager input)
+		public void ProcessInput(float elapsedTime)
 		{
-			if (input == null)
-			{
-				throw new ArgumentNullException("input");
-			}
-
+			var input = SG.InputManager;
 			for (int i = 0; i < 2; i++)
 			{
+				var gameManager = SG.GameManager;
 				// A button or enter to select menu option
 				if (input.IsButtonPressedA(i) ||
 					input.IsButtonPressedStart(i) ||
 					input.IsKeyPressed(i, Keys.Enter) ||
 					input.IsKeyPressed(i, Keys.Space))
 				{
+					var screenManager = SG.ScreenManager;
 					switch (menuSelection)
 					{
 						case 0:
@@ -149,29 +132,26 @@ namespace ShipGame
 		}
 
 		// update screen
-		public override void Update(float elapsedTime)
+		public void Update(float elapsedTime)
 		{
 			// accumulate elapsed time
 			menuTime += elapsedTime;
 		}
 
 		// draw 3D scene
-		public override void Draw3D(GraphicsDevice gd)
+		public void Draw3D()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
+			var gd = SG.GraphicsDevice;
 
 			// clear background
 			gd.Clear(Color.Black);
 
 			// draw background animation
-			screenManager.DrawBackground(gd);
+			SG.ScreenManager.DrawBackground();
 		}
 
 		// draw the animated cursor
-		void DrawCursor(int x, int y)
+		void DrawCursor(RenderContext2D context, int x, int y)
 		{
 			Rectangle rect = new Rectangle(0, 0, 0, 0);
 
@@ -182,7 +162,7 @@ namespace ShipGame
 			rect.Y = y - textureCursorAnim.Height / 2;
 			rect.Width = textureCursorAnim.Width;
 			rect.Height = textureCursorAnim.Height;
-			screenManager.DrawTexture(textureCursorAnim, rect, rotation,
+			context.DrawTexture(textureCursorAnim, rect, rotation,
 				Color.White, BlendState.AlphaBlend);
 
 			// draw bullet cursor texture
@@ -190,7 +170,7 @@ namespace ShipGame
 			rect.Y = y - textureCursorBullet.Height / 2;
 			rect.Width = textureCursorBullet.Width;
 			rect.Height = textureCursorBullet.Height;
-			screenManager.DrawTexture(textureCursorBullet, rect,
+			context.DrawTexture(textureCursorBullet, rect,
 				Color.White, BlendState.AlphaBlend);
 
 			// draw arrow cursor texture
@@ -198,28 +178,24 @@ namespace ShipGame
 			rect.Y = y - textureCursorArrow.Height / 2;
 			rect.Width = textureCursorArrow.Width;
 			rect.Height = textureCursorArrow.Height;
-			screenManager.DrawTexture(textureCursorArrow, rect,
+			context.DrawTexture(textureCursorArrow, rect,
 				Color.White, BlendState.AlphaBlend);
 		}
 
 		// draw 2D gui
-		public override void Draw2D(GraphicsDevice gd, FontManager font)
+		public void Draw2D(RenderContext2D context)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			// screen rect
+			var gd = SG.GraphicsDevice;
 			Rectangle rect = new Rectangle(gd.Viewport.X, gd.Viewport.Y,
 							gd.Viewport.Width, gd.Viewport.Height);
 
 			// draw lens flare texture
-			screenManager.DrawTexture(textureLens, rect,
+			context.DrawTexture(textureLens, rect,
 				Color.White, BlendState.Additive);
 
 			// draw logo texture
-			screenManager.DrawTexture(textureLogo, rect,
+			context.DrawTexture(textureLogo, rect,
 				Color.White, BlendState.AlphaBlend);
 
 			// draw menu itens
@@ -233,11 +209,11 @@ namespace ShipGame
 					rect.Y = Y;
 					rect.Width = textureMenuHover[i].Width;
 					rect.Height = textureMenuHover[i].Height;
-					screenManager.DrawTexture(textureMenuHover[i], rect,
+					context.DrawTexture(textureMenuHover[i], rect,
 						Color.White, BlendState.AlphaBlend);
 
 					// draw cursor left of selected item
-					DrawCursor(rect.X - 60, rect.Y + 19);
+					DrawCursor(context, rect.X - 60, rect.Y + 19);
 
 					Y += 50;
 				}
@@ -248,7 +224,7 @@ namespace ShipGame
 					rect.Width = textureMenu[i].Width;
 					rect.Height = textureMenu[i].Height;
 
-					screenManager.DrawTexture(textureMenu[i], rect,
+					context.DrawTexture(textureMenu[i], rect,
 						Color.White, BlendState.AlphaBlend);
 
 					Y += 40;

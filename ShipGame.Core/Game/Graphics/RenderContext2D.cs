@@ -1,21 +1,9 @@
-#region File Description
-//-----------------------------------------------------------------------------
-// FontManager.cs
-//
-// Microsoft XNA Community Game Platform
-// Copyright (C) Microsoft Corporation. All rights reserved.
-//-----------------------------------------------------------------------------
-#endregion
-
-#region Using Statements
-using AssetManagementBase;
+﻿using AssetManagementBase;
 using FontStashSharp;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-#endregion
 
 namespace ShipGame
 {
@@ -27,9 +15,8 @@ namespace ShipGame
 		LargeFont
 	};
 
-	public class FontManager : IDisposable
+	public class RenderContext2D : IDisposable
 	{
-		GraphicsDevice graphics;    // graphics device
 		SpriteBatch sprite;         // sprite bacth
 		FontSystem fontSystem;
 		List<SpriteFontBase> fonts;     // list of sprite fonts
@@ -38,15 +25,9 @@ namespace ShipGame
 		/// <summary>
 		/// Create a new font manager
 		/// </summary>
-		public FontManager(GraphicsDevice gd)
+		public RenderContext2D()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
-			graphics = gd;
-			sprite = new SpriteBatch(gd);
+			sprite = new SpriteBatch(SG.GraphicsDevice);
 			fonts = new List<SpriteFontBase>();
 			textMode = false;
 		}
@@ -54,9 +35,9 @@ namespace ShipGame
 		/// <summary>
 		/// Load resources
 		/// </summary>
-		public void LoadContent(AssetManager content)
+		public void LoadContent()
 		{
-			fontSystem = content.LoadFontSystem("fonts/Roboto-Bold.ttf");
+			fontSystem = SG.Assets.LoadFontSystem("fonts/Roboto-Bold.ttf");
 			fonts.Add(fontSystem.GetFont(14));
 			fonts.Add(fontSystem.GetFont(24));
 			fonts.Add(fontSystem.GetFont(32));
@@ -77,6 +58,7 @@ namespace ShipGame
 		{
 			get
 			{
+				var graphics = SG.GraphicsDevice;
 				return new Rectangle(graphics.Viewport.X, graphics.Viewport.Y,
 					graphics.Viewport.Width, graphics.Viewport.Height);
 			}

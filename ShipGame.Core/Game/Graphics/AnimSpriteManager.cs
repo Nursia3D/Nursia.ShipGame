@@ -104,14 +104,9 @@ namespace ShipGame
 		/// <summary>
 		/// Draw all sprites aligning to given camera
 		/// </summary>
-		public void Draw(GraphicsDevice gd, Vector3 cameraPos, Vector3 cameraUp,
+		public void Draw(Vector3 cameraPos, Vector3 cameraUp,
 			Matrix viewProjection, int player, bool camera3rdPerson)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			// if no sprites to render, return
 			if (animatedSprites.Count == 0)
 				return;
@@ -133,6 +128,7 @@ namespace ShipGame
 				animatedSprites.Count * 6);
 
 			// enable alpha blending and disable depth write
+			var gd = SG.GraphicsDevice;
 			gd.BlendState = BlendState.AlphaBlend;
 			gd.DepthStencilState = DepthStencilState.DepthRead;
 
@@ -190,15 +186,10 @@ namespace ShipGame
 		/// <summary>
 		/// Load content
 		/// </summary>
-		public void LoadContent(GraphicsDevice gd, AssetManager content)
+		public void LoadContent()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			// load effect
-			effect = content.LoadEffect2(gd, "AnimSprite.efb");
+			effect = SG.Assets.LoadEffect2("AnimSprite.efb");
 
 			// get techinque
 			effectTechnique = effect.Techniques["AnimSprite"];
@@ -215,6 +206,7 @@ namespace ShipGame
 				new VertexDeclaration(VertexPositionTexture.VertexDeclaration.GetVertexElements());
 
 			// create the vertex buffer
+			var gd = SG.GraphicsDevice;
 			vertexBuffer[0] = new VertexBuffer(gd, typeof(VertexPositionTexture),
 				GameOptions.MaxSprites * 6, BufferUsage.WriteOnly);
 			vertexBuffer[1] = new VertexBuffer(gd, typeof(VertexPositionTexture),

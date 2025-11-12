@@ -51,16 +51,15 @@ namespace ShipGame
 			content.Cache.Clear();
 		}
 
-		public static Texture2D LoadTexture2DDefault(this AssetManager manager, GraphicsDevice gd, string assetName)
+		public static Texture2D LoadTexture2DDefault(this AssetManager manager, string assetName)
 		{
-			return manager.LoadTexture2D(gd, assetName, premultiplyAlpha: true, colorKey: new Color(255, 0, 255, 255));
+			return manager.LoadTexture2D(SG.GraphicsDevice, assetName, premultiplyAlpha: true, colorKey: new Color(255, 0, 255, 255));
 		}
 
 		private static AssetLoader<DrModel> _modelLoader = (manager, assetName, settings, tag) =>
 		{
 			// Load gltf
-			var device = (GraphicsDevice)tag;
-
+			var device = SG.GraphicsDevice;
 			var model = DigitalRiseModelAssetsExt.LoadModel(manager, device, Path.ChangeExtension(assetName, "glb"), ModelLoadFlags.EnsureUVs);
 
 			var materialName = Path.ChangeExtension(assetName, "material");
@@ -87,7 +86,7 @@ namespace ShipGame
 							continue;
 						}
 
-						var effect = manager.LoadEffect2(device, "NormalMapping.efb").Clone();
+						var effect = manager.LoadEffect2("NormalMapping.efb").Clone();
 						foreach(var pair in meshPartMaterials)
 						{
 							effect.Parameters[pair.Key].SetValue(manager.LoadTexture2D(device, pair.Value));
@@ -102,12 +101,12 @@ namespace ShipGame
 			return model;
 		};
 
-		public static DrModel LoadModel(this AssetManager assetManager, GraphicsDevice graphicsDevice, string assetName)
+		public static DrModel LoadModel2(this AssetManager assetManager, string assetName)
 		{
-			return assetManager.UseLoader(_modelLoader, assetName, tag: graphicsDevice);
+			return assetManager.UseLoader(_modelLoader, assetName);
 		}
 
-		public static Effect LoadEffect2(this AssetManager manager, GraphicsDevice graphicsDevice, string assetName)
+		public static Effect LoadEffect2(this AssetManager manager, string assetName)
 		{
 			var file = Path.GetFileName(assetName);
 
@@ -125,7 +124,7 @@ namespace ShipGame
 			}
 #endif
 
-			return manager.LoadEffect(graphicsDevice, path);
+			return manager.LoadEffect(SG.GraphicsDevice, path);
 		}
 
 	}

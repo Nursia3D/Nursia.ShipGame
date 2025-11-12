@@ -20,11 +20,8 @@ using System.IO;
 
 namespace ShipGame
 {
-	public class ScreenPlayer : Screen
+	public class ScreenPlayer : IScreen
 	{
-		ScreenManager screenManager;    // screen manager
-		GameManager gameManager;         // game manager
-
 		const int NumberShips = 2;    // number of available ships to choose from
 
 		// name for each ship
@@ -63,77 +60,66 @@ namespace ShipGame
 		// total elapsed time for ship model rotation
 		float elapsedTime = 0.0f;
 
-		// constructor
-		public ScreenPlayer(ScreenManager manager, GameManager game)
+		public void Set()
 		{
-			screenManager = manager;
-			gameManager = game;
+			// load all resources
+			confirmed[0] = false;
+			confirmed[1] = (SG.GameManager.GameMode == GameMode.SinglePlayer);
+
+			rotation[0] = Matrix.Identity;
+			rotation[1] = Matrix.Identity;
+
+			var content = SG.Assets;
+			lights = LightList.Load(content, "screens/player_lights.xml");
+
+			for (int i = 0; i < NumberShips; i++)
+			{
+				shipModels[i] = content.LoadModel2($"ships/{ships[i]}");
+				FixupShip(shipModels[i], "ships/" + ships[i]);
+			}
+
+			padModel = content.LoadModel2("ships/pad");
+			padHaloModel = content.LoadModel2("ships/pad_halo");
+			padSelectModel = content.LoadModel2("ships/pad_select");
+
+			textureChangeShip = content.LoadTexture2DDefault("screens/change_ship.tga");
+			textureRotateShip = content.LoadTexture2DDefault("screens/rotate_ship.tga");
+			textureSelectBack = content.LoadTexture2DDefault("screens/select_back.tga");
+			textureSelectCancel = content.LoadTexture2DDefault("screens/select_cancel.tga");
+			textureInvertYCheck = content.LoadTexture2DDefault("screens/inverty_check.tga");
+			textureInvertYUncheck = content.LoadTexture2DDefault("screens/inverty_uncheck.tga");
 		}
 
-		// called before screen shows
-		public override void SetFocus(GraphicsDevice gd, AssetManager content, bool focus)
+		public void Unset()
 		{
-			// if getting focus
-			if (focus == true)
-			{
-				// load all resources
-				confirmed[0] = false;
-				confirmed[1] = (gameManager.GameMode == GameMode.SinglePlayer);
+			// free all resources
+			lights = null;
 
-				rotation[0] = Matrix.Identity;
-				rotation[1] = Matrix.Identity;
+			for (int i = 0; i < NumberShips; i++)
+				shipModels[i] = null;
 
-				lights = LightList.Load(content, "screens/player_lights.xml");
+			padModel = null;
+			padHaloModel = null;
+			padSelectModel = null;
 
-				for (int i = 0; i < NumberShips; i++)
-				{
-					shipModels[i] = content.LoadModel(gd, $"ships/{ships[i]}");
-					FixupShip(shipModels[i], "ships/" + ships[i]);
-				}
-
-				padModel = content.LoadModel(gd, "ships/pad");
-				padHaloModel = content.LoadModel(gd, "ships/pad_halo");
-				padSelectModel = content.LoadModel(gd, "ships/pad_select");
-
-				textureChangeShip = content.LoadTexture2DDefault(gd, "screens/change_ship.tga");
-				textureRotateShip = content.LoadTexture2DDefault(gd, "screens/rotate_ship.tga");
-				textureSelectBack = content.LoadTexture2DDefault(gd, "screens/select_back.tga");
-				textureSelectCancel = content.LoadTexture2DDefault(gd, "screens/select_cancel.tga");
-				textureInvertYCheck = content.LoadTexture2DDefault(gd, "screens/inverty_check.tga");
-				textureInvertYUncheck = content.LoadTexture2DDefault(gd, "screens/inverty_uncheck.tga");
-			}
-			else // loosing focus
-			{
-				// free all resources
-				lights = null;
-
-				for (int i = 0; i < NumberShips; i++)
-					shipModels[i] = null;
-
-				padModel = null;
-				padHaloModel = null;
-				padSelectModel = null;
-
-				textureChangeShip = null;
-				textureRotateShip = null;
-				textureSelectBack = null;
-				textureSelectCancel = null;
-				textureInvertYCheck = null;
-				textureInvertYUncheck = null;
-			}
+			textureChangeShip = null;
+			textureRotateShip = null;
+			textureSelectBack = null;
+			textureSelectCancel = null;
+			textureInvertYCheck = null;
+			textureInvertYUncheck = null;
 		}
 
-		public override void ProcessInput(float elapsedTime, InputManager input)
-		{
-			if (input == null)
-			{
-				throw new ArgumentNullException("input");
-			}
 
+		public void ProcessInput(float elapsedTime)
+		{
 			const float rotationVelocity = 3.0f;
 
-			int i, j = (int)gameManager.GameMode;
+			var input = SG.InputManager;
+			var gameManager = SG.GameManager;
+			var screenManager = SG.ScreenManager;
 
+			int i, j = (int)gameManager.GameMode;
 			for (i = 0; i < j; i++)
 				if (confirmed[i] == false)
 				{
@@ -212,24 +198,21 @@ namespace ShipGame
 			}
 		}
 
-		public override void Update(float elapsedTime)
+		public void Update(float elapsedTime)
 		{
 			// accumulate elapsed time
 			this.elapsedTime += elapsedTime;
 		}
 
-		public override void Draw3D(GraphicsDevice gd)
+		public void Draw3D()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
+			var gd = SG.GraphicsDevice;
 
 			// clear backgournd
 			gd.Clear(Color.Black);
 
 			// draw background animation
-			screenManager.DrawBackground(gd);
+			SG.ScreenManager.DrawBackground();
 
 			// screen aspect
 			float aspect = (float)gd.Viewport.Width / (float)gd.Viewport.Height;
@@ -247,14 +230,15 @@ namespace ShipGame
 			Matrix transform = Matrix.CreateTranslation(0, -40, 0);
 
 			// if single player mode
+			var gameManager = SG.GameManager;
 			if (gameManager.GameMode == GameMode.SinglePlayer)
 			{
 				// draw ship model
-				gameManager.DrawModel(gd, shipModels[selection[0]],
+				gameManager.DrawModel(shipModels[selection[0]],
 					RenderTechnique.NormalMapping,
 					cameraPosition, rotation[0], viewProjection, lights);
 				// draw pad model
-				gameManager.DrawModel(gd, padModel,
+				gameManager.DrawModel(padModel,
 					RenderTechnique.NormalMapping,
 					cameraPosition, transform, viewProjection, lights);
 
@@ -270,7 +254,7 @@ namespace ShipGame
 				//gd.RenderState.AlphaDestinationBlend = Blend.Zero;
 
 				// draw pad halo model
-				gameManager.DrawModel(gd, padHaloModel, RenderTechnique.PlainMapping,
+				gameManager.DrawModel(padHaloModel, RenderTechnique.PlainMapping,
 					cameraPosition, transform, viewProjection, null);
 
 				// enable glow (alpha not zero)
@@ -284,7 +268,7 @@ namespace ShipGame
 					float scale = 1.0f + 0.03f * (float)Math.Cos(elapsedTime * 7);
 					transform = transform * Matrix.CreateScale(scale);
 					transform.M42 = -10;
-					gameManager.DrawModel(gd, padSelectModel,
+					gameManager.DrawModel(padSelectModel,
 						RenderTechnique.PlainMapping, cameraPosition, transform,
 						viewProjection, null);
 				}
@@ -299,22 +283,22 @@ namespace ShipGame
 				Matrix transform2 = rotation[1] * Matrix.CreateTranslation(-90, 0, 0);
 
 				// draw ship model for player 1
-				gameManager.DrawModel(gd, shipModels[selection[0]],
+				gameManager.DrawModel(shipModels[selection[0]],
 					RenderTechnique.NormalMapping,
 					cameraPosition, transform1, viewProjection, lights);
 				// draw ship model for player 2
-				gameManager.DrawModel(gd, shipModels[selection[1]],
+				gameManager.DrawModel(shipModels[selection[1]],
 					RenderTechnique.NormalMapping,
 					cameraPosition, transform2, viewProjection, lights);
 
 				// draw pad model for player 1
 				transform.M41 = 90;
-				gameManager.DrawModel(gd, padModel, RenderTechnique.NormalMapping,
+				gameManager.DrawModel(padModel, RenderTechnique.NormalMapping,
 					cameraPosition, transform, viewProjection, lights);
 
 				// draw pad model for player 2
 				transform.M41 = -90;
-				gameManager.DrawModel(gd, padModel, RenderTechnique.NormalMapping,
+				gameManager.DrawModel(padModel, RenderTechnique.NormalMapping,
 					cameraPosition, transform, viewProjection, lights);
 
 				// set additive blend
@@ -329,12 +313,12 @@ namespace ShipGame
 
 				// draw pad halo model for player 1
 				transform.M41 = 90;
-				gameManager.DrawModel(gd, padHaloModel, RenderTechnique.NormalMapping,
+				gameManager.DrawModel(padHaloModel, RenderTechnique.NormalMapping,
 					cameraPosition, transform, viewProjection, null);
 
 				// draw pad halo model for player 2
 				transform.M41 = -90;
-				gameManager.DrawModel(gd, padHaloModel, RenderTechnique.NormalMapping,
+				gameManager.DrawModel(padHaloModel, RenderTechnique.NormalMapping,
 					cameraPosition, transform, viewProjection, null);
 
 				// enable glow (alpha not zero)
@@ -350,7 +334,7 @@ namespace ShipGame
 					transform = transform * Matrix.CreateScale(scale);
 					transform.M41 = 90;
 					transform.M42 = -10;
-					gameManager.DrawModel(gd, padSelectModel,
+					gameManager.DrawModel(padSelectModel,
 						RenderTechnique.PlainMapping, cameraPosition, transform,
 						viewProjection, null);
 				}
@@ -363,7 +347,7 @@ namespace ShipGame
 					transform = transform * Matrix.CreateScale(scale);
 					transform.M41 = -90;
 					transform.M42 = -10;
-					gameManager.DrawModel(gd, padSelectModel,
+					gameManager.DrawModel(padSelectModel,
 						RenderTechnique.PlainMapping, cameraPosition, transform,
 						viewProjection, null);
 				}
@@ -375,20 +359,16 @@ namespace ShipGame
 			}
 		}
 
-		public override void Draw2D(GraphicsDevice gd, FontManager font)
+		public void Draw2D(RenderContext2D context)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			Rectangle rect = new Rectangle(0, 0, 0, 0);
 
+			var gd = SG.GraphicsDevice;
 			int screenSizeX = gd.Viewport.Width;
 			int screenSizeY = gd.Viewport.Height;
 
 			// if single player mode
-			if (gameManager.GameMode == GameMode.SinglePlayer)
+			if (SG.GameManager.GameMode == GameMode.SinglePlayer)
 			{
 				rect.Width = textureSelectBack.Width;
 				rect.Height = textureSelectBack.Height;
@@ -398,11 +378,11 @@ namespace ShipGame
 				{
 					rect.Width = textureSelectCancel.Width;
 					rect.Height = textureSelectCancel.Height;
-					screenManager.DrawTexture(textureSelectCancel, rect,
+					context.DrawTexture(textureSelectCancel, rect,
 						Color.White, BlendState.AlphaBlend);
 				}
 				else
-					screenManager.DrawTexture(textureSelectBack, rect,
+					context.DrawTexture(textureSelectBack, rect,
 						Color.White, BlendState.AlphaBlend);
 
 				rect.Width = textureInvertYCheck.Width;
@@ -410,24 +390,24 @@ namespace ShipGame
 				rect.Y = screenSizeY - rect.Height - 30;
 				rect.X = screenSizeX / 2 - rect.Width / 2;
 				if ((invertY & 1) == 0)
-					screenManager.DrawTexture(textureInvertYUncheck, rect,
+					context.DrawTexture(textureInvertYUncheck, rect,
 						Color.White, BlendState.AlphaBlend);
 				else
-					screenManager.DrawTexture(textureInvertYCheck, rect,
+					context.DrawTexture(textureInvertYCheck, rect,
 						Color.White, BlendState.AlphaBlend);
 
 				rect.Width = textureChangeShip.Width;
 				rect.Height = textureChangeShip.Height;
 				rect.X = screenSizeX / 5 - rect.Width / 2;
 				rect.Y = 60;
-				screenManager.DrawTexture(textureChangeShip, rect,
+				context.DrawTexture(textureChangeShip, rect,
 					Color.White, BlendState.AlphaBlend);
 
 				rect.Width = textureRotateShip.Width;
 				rect.Height = textureRotateShip.Height;
 				rect.X = screenSizeX * 4 / 5 - rect.Width / 2;
 				rect.Y = 60;
-				screenManager.DrawTexture(textureRotateShip, rect,
+				context.DrawTexture(textureRotateShip, rect,
 					Color.White, BlendState.AlphaBlend);
 			}
 			else // if multi player mode
@@ -436,14 +416,14 @@ namespace ShipGame
 				rect.Height = textureChangeShip.Height;
 				rect.X = (screenSizeX - rect.Width) / 2;
 				rect.Y = 40;
-				screenManager.DrawTexture(textureChangeShip, rect,
+				context.DrawTexture(textureChangeShip, rect,
 					Color.White, BlendState.AlphaBlend);
 
 				rect.Width = textureRotateShip.Width;
 				rect.Height = textureRotateShip.Height;
 				rect.X = (screenSizeX - rect.Width) / 2;
 				rect.Y = 40 + textureChangeShip.Height;
-				screenManager.DrawTexture(textureRotateShip, rect,
+				context.DrawTexture(textureRotateShip, rect,
 					Color.White, BlendState.AlphaBlend);
 
 				rect.Width = textureInvertYCheck.Width;
@@ -451,17 +431,17 @@ namespace ShipGame
 				rect.Y = screenSizeY - rect.Height - 30;
 				rect.X = screenSizeX / 4 - rect.Width / 2;
 				if ((invertY & 1) == 0)
-					screenManager.DrawTexture(textureInvertYUncheck, rect,
+					context.DrawTexture(textureInvertYUncheck, rect,
 						Color.White, BlendState.AlphaBlend);
 				else
-					screenManager.DrawTexture(textureInvertYCheck, rect,
+					context.DrawTexture(textureInvertYCheck, rect,
 						Color.White, BlendState.AlphaBlend);
 				rect.X = screenSizeX * 3 / 4 - rect.Width / 2;
 				if ((invertY & 2) == 0)
-					screenManager.DrawTexture(textureInvertYUncheck, rect,
+					context.DrawTexture(textureInvertYUncheck, rect,
 						Color.White, BlendState.AlphaBlend);
 				else
-					screenManager.DrawTexture(textureInvertYCheck, rect,
+					context.DrawTexture(textureInvertYCheck, rect,
 						Color.White, BlendState.AlphaBlend);
 
 				rect.Width = textureSelectBack.Width;
@@ -472,11 +452,11 @@ namespace ShipGame
 				{
 					rect.Width = textureSelectCancel.Width;
 					rect.Height = textureSelectCancel.Height;
-					screenManager.DrawTexture(textureSelectCancel, rect,
+					context.DrawTexture(textureSelectCancel, rect,
 						Color.White, BlendState.AlphaBlend);
 				}
 				else
-					screenManager.DrawTexture(textureSelectBack, rect,
+					context.DrawTexture(textureSelectBack, rect,
 						Color.White, BlendState.AlphaBlend);
 				rect.Width = textureSelectBack.Width;
 				rect.Height = textureSelectBack.Height;
@@ -486,11 +466,11 @@ namespace ShipGame
 				{
 					rect.Width = textureSelectCancel.Width;
 					rect.Height = textureSelectCancel.Height;
-					screenManager.DrawTexture(textureSelectCancel, rect,
+					context.DrawTexture(textureSelectCancel, rect,
 						Color.White, BlendState.AlphaBlend);
 				}
 				else
-					screenManager.DrawTexture(textureSelectBack, rect,
+					context.DrawTexture(textureSelectBack, rect,
 						Color.White, BlendState.AlphaBlend);
 			}
 		}
@@ -500,15 +480,13 @@ namespace ShipGame
 		/// <param name="model"></param>
 		private void FixupShip(DrModel model, string path)
 		{
-			ShipGameGame game = ShipGameGame.GetInstance();
-
 			foreach (var mesh in model.Meshes)
 			{
 				// for each mesh part
-/*				foreach (Effect effect in mesh.Effects)
-				{
-					effect.Parameters["Reflect"].SetValue(GetReflectCube());
-				}*/
+				/*				foreach (Effect effect in mesh.Effects)
+								{
+									effect.Parameters["Reflect"].SetValue(GetReflectCube());
+								}*/
 			}
 		}
 
@@ -530,11 +508,9 @@ namespace ShipGame
 				new Color(0.1f,0,0.9f), new Color(0.0f,0,1.0f),
 			};
 
-			reflectCube = new TextureCube(ShipGameGame.GetInstance().GraphicsDevice,
-				8, true, SurfaceFormat.Color);
+			reflectCube = new TextureCube(SG.GraphicsDevice, 8, true, SurfaceFormat.Color);
 
 			Random rand = new Random();
-
 			for (int s = 0; s < 6; s++)
 			{
 				Color[] sideData = new Color[reflectCube.Size * reflectCube.Size];
@@ -547,8 +523,5 @@ namespace ShipGame
 
 			return reflectCube;
 		}
-
-
-
 	}
 }

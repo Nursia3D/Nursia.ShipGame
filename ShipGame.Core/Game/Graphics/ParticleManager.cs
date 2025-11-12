@@ -123,18 +123,14 @@ namespace ShipGame
 		/// <summary>
 		/// Draw all particle systems
 		/// </summary>
-		public void Draw(GraphicsDevice gd, Matrix viewProjection)
+		public void Draw(Matrix viewProjection)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			// if no particle systems or no vertices, return
 			if (systems.Count == 0 || vertexCount == 0)
 				return;
 
 			// enable alpha blending and disable depth write
+			var gd = SG.GraphicsDevice;
 			gd.BlendState = BlendState.AlphaBlend;
 			gd.DepthStencilState = DepthStencilState.DepthRead;
 
@@ -212,15 +208,10 @@ namespace ShipGame
 		/// <summary>
 		/// Load content
 		/// </summary>
-		public void LoadContent(GraphicsDevice gd, AssetManager content)
+		public void LoadContent()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			// load effect
-			effect = content.LoadEffect2(gd, "Particle.efb");
+			effect = SG.Assets.LoadEffect2("Particle.efb");
 
 			// get techinque
 			effectTechnique = effect.Techniques["Particle"];
@@ -235,6 +226,7 @@ namespace ShipGame
 			effectVelocityScale = effect.Parameters["VelocityScale"];
 
 			// create the vertex buffer
+			var gd = SG.GraphicsDevice;
 			vertexBuffer = new VertexBuffer(gd, typeof(VertexPositionNormalTexture),
 								GameOptions.MaxParticles,
 								BufferUsage.WriteOnly | BufferUsage.None);

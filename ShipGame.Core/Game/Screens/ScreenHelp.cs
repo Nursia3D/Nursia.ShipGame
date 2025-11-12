@@ -8,9 +8,7 @@
 #endregion
 
 #region Using Statements
-using AssetManagementBase;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -18,50 +16,33 @@ using System;
 
 namespace ShipGame
 {
-	public class ScreenHelp : Screen
+	public class ScreenHelp : IScreen
 	{
-		ScreenManager screenManager;    // screen manager
-		GameManager gameManager;         // game manager
-
 		Texture2D textureControls;    // controlls text texture
 		Texture2D textureDisplay;     // controller texture
 		Texture2D textureContinue;    // continue text texture
 
-		// constructor
-		public ScreenHelp(ScreenManager manager, GameManager game)
+		public void Set()
 		{
-			screenManager = manager;
-			gameManager = game;
+			// load all resources
+			var content = SG.Assets;
+			textureControls = content.LoadTexture2DDefault("screens/controls.tga");
+			textureDisplay = content.LoadTexture2DDefault("screens/controls_display.tga");
+			textureContinue = content.LoadTexture2DDefault("screens/continue.tga");
 		}
 
-		// called before screen shows
-		public override void SetFocus(GraphicsDevice gd, AssetManager content, bool focus)
+		public void Unset()
 		{
-			// if getting focus
-			if (focus)
-			{
-				// load all resources
-				textureControls = content.LoadTexture2DDefault(gd, "screens/controls.tga");
-				textureDisplay = content.LoadTexture2DDefault(gd, "screens/controls_display.tga");
-				textureContinue = content.LoadTexture2DDefault(gd, "screens/continue.tga");
-			}
-			else  // loosing focus
-			{
-				// free all resources
-				textureControls = null;
-				textureDisplay = null;
-				textureContinue = null;
-			}
+			// free all resources
+			textureControls = null;
+			textureDisplay = null;
+			textureContinue = null;
 		}
 
 		// process input
-		public override void ProcessInput(float elapsedTime, InputManager input)
+		public void ProcessInput(float elapsedTime)
 		{
-			if (input == null)
-			{
-				throw new ArgumentNullException("input");
-			}
-
+			var input = SG.InputManager;
 			for (int i = 0; i < 2; i++)
 			{
 				// Any key/button to go back
@@ -79,42 +60,35 @@ namespace ShipGame
 					input.IsKeyPressed(i, Keys.Escape) ||
 					input.IsKeyPressed(i, Keys.Space))
 				{
-					screenManager.SetNextScreen(ScreenType.ScreenIntro);
-					gameManager.PlaySound("menu_cancel");
+					SG.ScreenManager.SetNextScreen(ScreenType.ScreenIntro);
+					SG.GameManager.PlaySound("menu_cancel");
 				}
 			}
 		}
 
 		// update screen
-		public override void Update(float elapsedTime)
+		public void Update(float elapsedTime)
 		{
 		}
 
 		// draw 3D scene
-		public override void Draw3D(GraphicsDevice gd)
+		public void Draw3D()
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
+			var gd = SG.GraphicsDevice;
 
 			// clear background
 			gd.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1, 0);
 
 			// draw background animation
-			screenManager.DrawBackground(gd);
+			SG.ScreenManager.DrawBackground();
 		}
 
 		// draw 2D gui
-		public override void Draw2D(GraphicsDevice gd, FontManager font)
+		public void Draw2D(RenderContext2D context)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
 			Rectangle rect = new Rectangle(0, 0, 0, 0);
 
+			var gd = SG.GraphicsDevice;
 			int screenSizeX = gd.Viewport.Width;
 			int screenSizeY = gd.Viewport.Height;
 
@@ -123,7 +97,8 @@ namespace ShipGame
 			rect.Height = textureControls.Height;
 			rect.X = screenSizeX / 2 - rect.Width / 2;
 			rect.Y = 40;
-			screenManager.DrawTexture(textureControls, rect,
+
+			context.DrawTexture(textureControls, rect,
 				Color.White, BlendState.AlphaBlend);
 
 			// draw controller texture centered in screen
@@ -131,7 +106,7 @@ namespace ShipGame
 			rect.Height = textureDisplay.Height;
 			rect.X = screenSizeX / 2 - rect.Width / 2;
 			rect.Y = screenSizeY / 2 - rect.Height / 2 + 10;
-			screenManager.DrawTexture(textureDisplay, rect,
+			context.DrawTexture(textureDisplay, rect,
 				Color.White, BlendState.AlphaBlend);
 
 			// draw continue message aligned to bottom of screen
@@ -139,7 +114,7 @@ namespace ShipGame
 			rect.Height = textureContinue.Height;
 			rect.X = screenSizeX / 2 - rect.Width / 2;
 			rect.Y = screenSizeY - rect.Height - 60;
-			screenManager.DrawTexture(textureContinue, rect,
+			context.DrawTexture(textureContinue, rect,
 				Color.White, BlendState.AlphaBlend);
 		}
 	}

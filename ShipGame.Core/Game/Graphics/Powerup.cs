@@ -45,17 +45,13 @@ namespace ShipGame
 		/// <summary>
 		/// Update powerup for given elapsed time
 		/// </summary>
-		public bool Update(GameManager game, float elapsedTime)
+		public bool Update(float elapsedTime)
 		{
-			if (game == null)
-			{
-				throw new ArgumentNullException("game");
-			}
-
 			// add elapsed time for this frame
 			this.elapsedTime += elapsedTime;
 
 			// if waiting to respawn
+			var game = SG.GameManager;
 			if (waitTime > 0)
 			{
 				// decrease wait time
@@ -121,20 +117,14 @@ namespace ShipGame
 		/// <summary>
 		/// Draw powerup
 		/// </summary>
-		public void Draw(GameManager game, GraphicsDevice gd,
-			RenderTechnique technique, Vector3 cameraPosition,
+		public void Draw(RenderTechnique technique, Vector3 cameraPosition,
 			Matrix viewProjection, LightList lights)
 		{
-			if (game == null)
-			{
-				throw new ArgumentNullException("game");
-			}
-
 			// if now waiting to respawn
 			if (waitTime == 0)
 			{
 				// draw powerup model
-				game.DrawModel(gd, model, technique, cameraPosition,
+				SG.GameManager.DrawModel(model, technique, cameraPosition,
 					bobbing * transform, viewProjection, lights);
 			}
 		}

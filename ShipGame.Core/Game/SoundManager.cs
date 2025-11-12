@@ -19,7 +19,6 @@ namespace ShipGame
 	public class SoundManager : IDisposable
 	{
 		Dictionary<string, SoundEffect> sounds = new();     // list of sound effects
-		AssetManager content;                                                     // content manager
 
 		private string[] soundAssets =
 		{
@@ -49,14 +48,12 @@ namespace ShipGame
 		/// <summary>
 		/// Load resources
 		/// </summary>
-		public void LoadContent(AssetManager content)
+		public void LoadContent()
 		{
-			this.content = content;
 			foreach (string asset in soundAssets)
 			{
-				sounds.Add(asset, content.LoadSoundEffect($"sounds/{asset}.wav"));
+				sounds.Add(asset, SG.Assets.LoadSoundEffect($"sounds/{asset}.wav"));
 			}
-
 		}
 
 		/// <summary>
@@ -66,11 +63,12 @@ namespace ShipGame
 		{
 			foreach (string asset in soundAssets)
 			{
-				content.UnloadAsset($"sounds/{asset}");
+				SG.Assets.UnloadAsset($"sounds/{asset}");
 			}
-			foreach (SoundEffect sound in sounds.Values)
+
+			foreach (var sound in sounds.Values)
 			{
-				content.UnloadAsset(sound.Name);
+				SG.Assets.UnloadAsset(sound.Name);
 				sound.Dispose();
 			}
 			sounds.Clear();
@@ -118,11 +116,6 @@ namespace ShipGame
 		{
 			if (disposing && !isDisposed)
 			{
-				if (content != null)
-				{
-					content.Dispose();
-					content = null;
-				}
 			}
 		}
 		#endregion

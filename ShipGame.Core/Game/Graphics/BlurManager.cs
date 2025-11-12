@@ -53,12 +53,8 @@ namespace ShipGame
 		/// <summary>
 		/// Create a new blur manager
 		/// </summary>
-		public BlurManager(GraphicsDevice gd, Effect effect, int sizex, int sizey)
+		public BlurManager(Effect effect, int sizex, int sizey)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
 			if (effect == null)
 			{
 				throw new ArgumentNullException("effect");
@@ -78,6 +74,7 @@ namespace ShipGame
 			viewProjection = Matrix.CreateOrthographicOffCenter(0, sizeX, 0, sizeY, -1, 1);
 
 			// create vertex buffer
+			var gd = SG.GraphicsDevice;
 			vertexBuffer = new VertexBuffer(gd, typeof(VertexPositionTexture),
 						6, BufferUsage.WriteOnly);
 
@@ -119,14 +116,10 @@ namespace ShipGame
 		/// the horizontal and vertical blur operations
 		/// </summary>
 		public void RenderScreenQuad(
-			GraphicsDevice gd, BlurTechnique technique,
+			BlurTechnique technique,
 			Texture2D texture, Vector4 color)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
+			var gd = SG.GraphicsDevice;
 			gd.SetVertexBuffer(vertexBuffer);
 
 			blurEffect.CurrentTechnique = blurEffect.Techniques[(int)technique];
@@ -146,14 +139,10 @@ namespace ShipGame
 		/// Render a screen aligned quad used to process 
 		/// the horizontal and vertical blur operations
 		/// </summary>
-		public void RenderScreenQuad(GraphicsDevice gd, BlurTechnique technique,
+		public void RenderScreenQuad(BlurTechnique technique,
 			Texture2D texture, Vector4 color, float scale)
 		{
-			if (gd == null)
-			{
-				throw new ArgumentNullException("gd");
-			}
-
+			var gd = SG.GraphicsDevice;
 			gd.SetVertexBuffer(vertexBuffer);
 
 			blurEffect.CurrentTechnique = blurEffect.Techniques[(int)technique];

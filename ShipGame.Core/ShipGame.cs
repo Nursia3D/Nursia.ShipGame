@@ -23,36 +23,17 @@ namespace ShipGame
 	/// </summary>
 	public class ShipGameGame : Game
 	{
-		static ShipGameGame instance;
+		private static ShipGameGame instance;
 
 		GraphicsDeviceManager graphics;
-		ScreenManager screen;
-		GameManager game;
-		FontManager font;
-		SoundManager soundManager;
-		AssetManager assets;
 		bool renderVsync = true;
-
-		private static string ExecutingAssemblyDirectory
-		{
-			get
-			{
-				string codeBase = Assembly.GetExecutingAssembly().Location;
-				UriBuilder uri = new UriBuilder(codeBase);
-				string path = Uri.UnescapeDataString(uri.Path);
-				return Path.GetDirectoryName(path);
-			}
-		}
-
-		public static AssetManager AssetManager => instance.assets;
 
 		public ShipGameGame()
 		{
+			instance = this;
+
 			graphics = new GraphicsDeviceManager(this);
 			Window.Title = "ShipGame";
-
-			soundManager = new SoundManager();
-			game = new GameManager(soundManager);
 
 			graphics.PreferredBackBufferWidth = GameOptions.ScreenWidth;
 			graphics.PreferredBackBufferHeight = GameOptions.ScreenHeight;
@@ -79,15 +60,7 @@ namespace ShipGame
 		/// </summary>
 		protected override void LoadContent()
 		{
-			font = new FontManager(graphics.GraphicsDevice);
-			screen = new ScreenManager(this, font, game);
-
-			var path = Path.Combine(ExecutingAssemblyDirectory, "Assets");
-			assets = AssetManager.CreateFileAssetManager(path);
-			soundManager.LoadContent(assets);
-			font.LoadContent(assets);
-			game.LoadContent(graphics.GraphicsDevice, assets);
-			screen.LoadContent(graphics.GraphicsDevice, assets);
+			SG.Initialize(GraphicsDevice);
 		}
 
 
@@ -96,13 +69,7 @@ namespace ShipGame
 		/// </summary>
 		protected override void UnloadContent()
 		{
-			soundManager.UnloadContent();
-			screen.UnloadContent();
-			game.UnloadContent();
-			font.UnloadContent();
-
-			screen = null;
-			font = null;
+			SG.Uninitialize();
 		}
 
 
@@ -113,12 +80,9 @@ namespace ShipGame
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			float ElapsedTimeFloat = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-			screen.ProcessInput(ElapsedTimeFloat);
-			screen.Update(GraphicsDevice, ElapsedTimeFloat);
-
 			base.Update(gameTime);
+
+			SG.Update(gameTime);
 		}
 
 
@@ -128,7 +92,7 @@ namespace ShipGame
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			screen.Draw(graphics.GraphicsDevice);
+			SG.Draw(gameTime);
 
 			base.Draw(gameTime);
 		}
@@ -136,19 +100,14 @@ namespace ShipGame
 		/// <summary>
 		/// This is called to switch full screen mode.
 		/// </summary>
-		public void ToggleFullScreen()
+		public static void ToggleFullScreen()
 		{
-			graphics.ToggleFullScreen();
+			instance.graphics.ToggleFullScreen();
 		}
 
-		static public ShipGameGame GetInstance()
+		public static void DoExit()
 		{
-			return instance;
-		}
-
-		static public void SetInstance(ShipGameGame game)
-		{
-			instance = game;
+			instance.Exit();
 		}
 	}
 }
