@@ -1,0 +1,10 @@
+{
+  "pad_ha": {
+    "0": {
+      "Texture": "pad_halo.tga",
+      "Bump0": "/null_normal.tga",
+      "Specular0": "/null_specular.tga",
+      "Emissive0": "/null_glow.tga"
+    }
+  }
+}

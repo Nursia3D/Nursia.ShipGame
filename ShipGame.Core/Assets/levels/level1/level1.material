@@ -1,0 +1,40 @@
+{
+  "New_level1": {
+    "0": {
+      "Texture": "conc1_c.jpg",
+      "Bump0": "conc1_n.jpg",
+      "Specular0": "conc1_s.jpg",
+      "Emissive0": "/null_glow.tga"
+    },
+    "1": {
+      "Texture": "fence_c.jpg",
+      "Bump0": "fence_n.jpg",
+      "Specular0": "fence_s.jpg",
+      "Emissive0": "/null_glow.tga"
+    },
+    "2": {
+      "Texture": "conc2_c.jpg",
+      "Bump0": "conc2_n.jpg",
+      "Specular0": "conc2_s.jpg",
+      "Emissive0": "/null_glow.tga"
+    },
+    "3": {
+      "Texture": "grate_c.jpg",
+      "Bump0": "grate_n.jpg",
+      "Specular0": "grate_s.jpg",
+      "Emissive0": "/null_glow.tga"
+    },
+    "4": {
+      "Texture": "lava_c.jpg",
+      "Bump0": "lava_n.jpg",
+      "Specular0": "lava_s.jpg",
+      "Emissive0": "/null_glow.tga"
+    },
+    "5": {
+      "Texture": "ybline_c.jpg",
+      "Bump0": "/null_normal.tga",
+      "Specular0": "ybline_s.jpg",
+      "Emissive0": "/null_glow.tga"
+    }
+  }
+}

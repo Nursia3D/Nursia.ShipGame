@@ -1,0 +1,76 @@
+{
+  "polySurface305": {
+    "0": {
+      "Texture": "floor_c.tga",
+      "Bump0": "floor_n.tga",
+      "Specular0": "floor_s.tga",
+      "Emissive0": "/null_glow.tga"
+    },
+    "1": {
+      "Texture": "piping_c.tga",
+      "Bump0": "piping_n.tga",
+      "Specular0": "piping_s.tga",
+      "Emissive0": "piping_g.tga"
+    },
+    "2": {
+      "Texture": "ceilingLights_c.tga",
+      "Bump0": "ceilingLights_n.tga",
+      "Specular0": "ceilingLights_s.tga",
+      "Emissive0": "ceilingLights_g.tga"
+    },
+    "3": {
+      "Texture": "circularLight_c.tga",
+      "Bump0": "circularLight_n.tga",
+      "Specular0": "circularLight_s.tga",
+      "Emissive0": "circularLight_g.tga"
+    },
+    "4": {
+      "Texture": "supportLights_c.tga",
+      "Bump0": "supportLights_n.tga",
+      "Specular0": "supportLights_s.tga",
+      "Emissive0": "supportLights_g.tga"
+    },
+    "5": {
+      "Texture": "spaceTile_c.tga",
+      "Bump0": "spaceTile_n.tga",
+      "Specular0": "spaceTile_s.tga",
+      "Emissive0": "spaceTile_g.tga"
+    },
+    "6": {
+      "Texture": "trimTile_c.tga",
+      "Bump0": "trimTile_n.tga",
+      "Specular0": "trimTile_s.tga",
+      "Emissive0": "/null_glow.tga"
+    },
+    "7": {
+      "Texture": "pipe_c.tga",
+      "Bump0": "pipe_n.tga",
+      "Specular0": "pipe_s.tga",
+      "Emissive0": "/null_glow.tga"
+    },
+    "8": {
+      "Texture": "sidePanels_c.tga",
+      "Bump0": "sidePanels_n.tga",
+      "Specular0": "sidePanels_s.tga",
+      "Emissive0": "sidePanels_g.tga"
+    },
+    "9": {
+      "Texture": "trimTileLights_c.tga",
+      "Bump0": "trimTileLights_n.tga",
+      "Specular0": "trimTileLights_s.tga",
+      "Emissive0": "trimTileLights_g.tga"
+    },
+    "10": {
+      "Texture": "pillar_c.tga",
+      "Bump0": "pillar_n.tga",
+      "Specular0": "pillar_s.tga",
+      "Emissive0": "/null_glow.tga"
+    },
+    "11": {
+      "Texture": "sidePanels_c.tga",
+      "Bump0": "sidePanels_n.tga",
+      "Specular0": "sidePanels_s.tga",
+      "Emissive0": "sidePanels_g.tga"
+    }
+  }
+}

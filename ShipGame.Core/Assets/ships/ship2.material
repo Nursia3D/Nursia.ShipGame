@@ -1,0 +1,10 @@
+{
+  "polySurface5": {
+    "0": {
+      "Texture": "ship2_c.tga",
+      "Bump0": "ship2_n.tga",
+      "Specular0": "ship2_s.tga",
+      "Emissive0": "/null_glow.tga"
+    }
+  }
+}

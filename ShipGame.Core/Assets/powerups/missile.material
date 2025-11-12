@@ -1,0 +1,16 @@
+{
+  "missile_pw": {
+    "0": {
+      "Texture": "/projectiles\\Missile_c.tga",
+      "Bump0": "/projectiles\\Missile_n.tga",
+      "Specular0": "/projectiles\\Missile_s.tga",
+      "Emissive0": "/null_glow.tga"
+    },
+    "1": {
+      "Texture": "missile_pwu_c.tga",
+      "Bump0": "missile_pwu_n.tga",
+      "Specular0": "missile_pwu_s.tga",
+      "Emissive0": "/null_glow.tga"
+    }
+  }
+}

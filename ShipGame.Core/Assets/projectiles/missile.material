@@ -1,0 +1,10 @@
+{
+  "missile": {
+    "0": {
+      "Texture": "Missile_c.tga",
+      "Bump0": "Missile_n.tga",
+      "Specular0": "Missile_s.tga",
+      "Emissive0": "/null_glow.tga"
+    }
+  }
+}
