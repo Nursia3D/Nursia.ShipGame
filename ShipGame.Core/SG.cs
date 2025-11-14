@@ -1,6 +1,7 @@
 ﻿using AssetManagementBase;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Nursia;
 using System;
 using System.IO;
 
@@ -8,7 +9,6 @@ namespace ShipGame
 {
 	public static partial class SG
 	{
-		public static GraphicsDevice GraphicsDevice { get; private set; }
 		public static AssetManager Assets { get; private set; }
 
 
@@ -18,9 +18,14 @@ namespace ShipGame
 		public static InputManagerType InputManager { get; private set; }
 
 
-		public static void Initialize(GraphicsDevice device)
+		public static void Initialize(Game game)
 		{
-			GraphicsDevice = device ?? throw new ArgumentNullException(nameof(device));
+			if (game == null)
+			{
+				throw new ArgumentNullException(nameof(game));
+			}
+
+			Nrs.Game = game;
 
 			var path = Path.Combine(Utility.ExecutingAssemblyDirectory, "Assets");
 			Assets = AssetManager.CreateFileAssetManager(path);

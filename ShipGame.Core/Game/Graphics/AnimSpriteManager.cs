@@ -8,10 +8,9 @@
 #endregion
 
 #region Using Statements
-using AssetManagementBase;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Nursia;
 using System;
 using System.Collections.Generic;
 #endregion
@@ -128,7 +127,7 @@ namespace ShipGame
 				animatedSprites.Count * 6);
 
 			// enable alpha blending and disable depth write
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			gd.BlendState = BlendState.AlphaBlend;
 			gd.DepthStencilState = DepthStencilState.DepthRead;
 
@@ -206,7 +205,7 @@ namespace ShipGame
 				new VertexDeclaration(VertexPositionTexture.VertexDeclaration.GetVertexElements());
 
 			// create the vertex buffer
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			vertexBuffer[0] = new VertexBuffer(gd, typeof(VertexPositionTexture),
 				GameOptions.MaxSprites * 6, BufferUsage.WriteOnly);
 			vertexBuffer[1] = new VertexBuffer(gd, typeof(VertexPositionTexture),

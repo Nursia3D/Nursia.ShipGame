@@ -9,6 +9,7 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" PrivateAssets="All" Version="$(MonoGameVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Nursia\Nursia\Nursia.MonoGame.csproj" />
     <ProjectReference Include="..\ShipGame.Dependencies\BoxCollider\BoxCollider.MonoGame.csproj" />
   </ItemGroup>
   <ItemGroup>

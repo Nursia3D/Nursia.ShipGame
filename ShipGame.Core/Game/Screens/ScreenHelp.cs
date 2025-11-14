@@ -11,6 +11,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nursia;
+using Nursia.SceneGraph;
+using Nursia.SceneGraph.Cameras;
 using System;
 #endregion
 
@@ -21,6 +24,10 @@ namespace ShipGame
 		Texture2D textureControls;    // controlls text texture
 		Texture2D textureDisplay;     // controller texture
 		Texture2D textureContinue;    // continue text texture
+
+		public bool DrawBackground => true;
+
+		public StoredScene Scene3D => throw new NotImplementedException();
 
 		public void Set()
 		{
@@ -74,13 +81,6 @@ namespace ShipGame
 		// draw 3D scene
 		public void Draw3D()
 		{
-			var gd = SG.GraphicsDevice;
-
-			// clear background
-			gd.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1, 0);
-
-			// draw background animation
-			SG.ScreenManager.DrawBackground();
 		}
 
 		// draw 2D gui
@@ -88,7 +88,7 @@ namespace ShipGame
 		{
 			Rectangle rect = new Rectangle(0, 0, 0, 0);
 
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			int screenSizeX = gd.Viewport.Width;
 			int screenSizeY = gd.Viewport.Height;
 

@@ -11,6 +11,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nursia.SceneGraph;
+using Nursia.SceneGraph.Cameras;
 
 #endregion
 
@@ -25,6 +27,10 @@ namespace ShipGame
 		Texture2D hudBars;            // hud energy/shield/boost bars texture
 
 		Texture2D damageTexture;      // damage indication texture
+
+		public bool DrawBackground => false;
+
+		public StoredScene Scene3D => throw new System.NotImplementedException();
 
 		public void Set()
 		{

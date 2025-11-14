@@ -3,6 +3,7 @@ using DigitalRiseModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nursia;
 using System;
 
 namespace ShipGame
@@ -224,7 +225,7 @@ namespace ShipGame
 				levelColor = content.LoadModel2($"levels/{level}");
 
 				// load collision model
-				var collisionModel = content.LoadModel(GraphicsDevice, $"levels/{level}_collision.glb", ModelLoadFlags.ReadableBuffers);
+				var collisionModel = content.LoadModel(Nrs.GraphicsDevice, $"levels/{level}_collision.glb", ModelLoadFlags.ReadableBuffers);
 				levelCollision = new CollisionMesh(collisionModel, GameOptions.CollisionMeshSubdivisions);
 				collisionModel = null;
 
@@ -558,7 +559,7 @@ namespace ShipGame
 			/// </summary>
 			public void Draw3D()
 			{
-				var gd = GraphicsDevice;
+				var gd = Nrs.GraphicsDevice;
 
 				// clear background
 				gd.Clear(Color.Black);
@@ -572,7 +573,7 @@ namespace ShipGame
 			/// </summary>
 			void DrawScene(RenderTechnique technique)
 			{
-				var gd = GraphicsDevice;
+				var gd = Nrs.GraphicsDevice;
 				if (gameMode == GameMode.SinglePlayer)
 				{
 					// camera position and view projection matrix
@@ -696,7 +697,7 @@ namespace ShipGame
 				// load content for particle system manager
 				particle.LoadContent();
 
-				var gd = GraphicsDevice;
+				var gd = Nrs.GraphicsDevice;
 				// set up projection matrix for full and slpit screen
 				float aspect = (float)gd.Viewport.Width / (float)gd.Viewport.Height;
 				projectionFull = Matrix.CreatePerspectiveFieldOfView(
@@ -931,7 +932,7 @@ namespace ShipGame
 				// get model bones
 				model.CopyAbsoluteBoneTransformsTo(bones);
 
-				var gd = GraphicsDevice;
+				var gd = Nrs.GraphicsDevice;
 				BlendState bs = gd.BlendState;
 				DepthStencilState ds = gd.DepthStencilState;
 

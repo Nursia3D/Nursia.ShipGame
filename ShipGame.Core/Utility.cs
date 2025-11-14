@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -16,5 +17,10 @@ namespace ShipGame
 				return Path.GetDirectoryName(path);
 			}
 		}
+
+		public static Vector3 ToDegrees(this Vector3 rads) =>
+			new Vector3(MathHelper.ToDegrees(rads.X),
+				MathHelper.ToDegrees(rads.Y),
+				MathHelper.ToDegrees(rads.Z));
 	}
 }

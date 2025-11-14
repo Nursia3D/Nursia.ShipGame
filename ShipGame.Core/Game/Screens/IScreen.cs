@@ -7,6 +7,9 @@
 //-----------------------------------------------------------------------------
 #endregion
 
+using Nursia.SceneGraph;
+using Nursia.SceneGraph.Cameras;
+
 namespace ShipGame
 {
 	public enum ScreenType
@@ -21,6 +24,9 @@ namespace ShipGame
 
 	public interface IScreen
 	{
+		bool DrawBackground { get; }
+		StoredScene Scene3D { get; }
+
 		void Set();
 		
 		void Unset();
@@ -29,9 +35,6 @@ namespace ShipGame
 
 		// called to update state
 		void Update(float elapsedTime);
-
-		// called to draw the 3D world
-		void Draw3D();
 
 		// called to draw the 2D info text and hud
 		void Draw2D(RenderContext2D context);

@@ -1,0 +1,91 @@
+{
+  "Camera": {
+    "$type": "Nursia.SceneGraph.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "AspectRatio": 0.9868928,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "21.091043, 13.854662, 56.217113",
+    "Scale": "1, 1, 1",
+    "Rotation": "309.47107, 45.812897, 0",
+    "Children": []
+  },
+  "RenderEnvironment": {
+    "AmbientLightColor": "Black",
+    "FogColor": "LightGray",
+    "FogStart": 100.0,
+    "FogEnd": 1000.0
+  },
+  "Root": {
+    "Scale": "1, 1, 1",
+    "Children": [
+      {
+        "$type": "Nursia.SceneGraph.SubsceneNode, Nursia",
+        "NodePath": "ship1.scene",
+        "Id": "_ship",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.SceneGraph.NursiaModelNode, Nursia",
+        "Materials": [
+          [
+            {
+              "$type": "Nursia.Materials.LitSolidMaterial, Nursia",
+              "AmbientColor": "Black",
+              "DiffuseColor": "White",
+              "SpecularColor": "Black",
+              "SpecularPower": 250.0,
+              "EmissiveColor": "Black",
+              "DiffuseTexturePath": "../ships/pad_c.tga",
+              "SpecularTexturePath": "../ships/pad_s.tga",
+              "NormalTexturePath": "../ships/pad_n.tga"
+            }
+          ]
+        ],
+        "ModelPath": "../ships/pad.glb",
+        "Translation": "0, -40, 0",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.SceneGraph.NursiaModelNode, Nursia",
+        "Materials": [
+          [
+            {
+              "$type": "Nursia.Materials.UnlitMaterial, Nursia",
+              "BlendState": "BlendState.Additive",
+              "DepthStencilState": "DepthStencilState.DepthRead",
+              "CastsShadows": false,
+              "TexturePath": "../ships/pad_halo.tga",
+              "DiffuseColor": "White"
+            }
+          ]
+        ],
+        "ModelPath": "../ships/pad_halo.glb",
+        "Translation": "0, -40, 0",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.SceneGraph.NursiaModelNode, Nursia",
+        "Materials": [
+          [
+            {
+              "$type": "Nursia.Materials.UnlitMaterial, Nursia",
+              "CastsShadows": false,
+              "IsTransparent": true,
+              "TexturePath": "../ships/pad_select.tga",
+              "DiffuseColor": "White"
+            }
+          ]
+        ],
+        "ModelPath": "../ships/pad_select.glb",
+        "Id": "_padSelect",
+        "Translation": "0, -10, 0",
+        "Scale": "1, 1, 1",
+        "Children": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "Camera": {
+    "$type": "Nursia.SceneGraph.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "2.7416153, 17.098057, 26.50302",
+    "Scale": "1, 1, 1",
+    "Rotation": "331.03665, 10.594849, 0",
+    "Children": []
+  },
+  "Root": {
+    "$type": "Nursia.SceneGraph.NursiaModelNode, Nursia",
+    "Materials": [
+      [
+        {
+          "$type": "Nursia.Materials.LitSolidMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../projectiles/Missile_c.tga",
+          "SpecularTexturePath": "../projectiles/Missile_s.tga",
+          "NormalTexturePath": "../projectiles/Missile_n.tga"
+        },
+        {
+          "$type": "Nursia.Materials.LitSolidMaterial, Nursia",
+          "DiffuseColor": "White",
+          "SpecularColor": "Black",
+          "SpecularPower": 250.0,
+          "EmissiveColor": "Black",
+          "DiffuseTexturePath": "../powerups/missile_pwu_c.tga",
+          "SpecularTexturePath": "../powerups/energy_pwu_s.tga",
+          "NormalTexturePath": "../powerups/energy_pwu_n.tga"
+        }
+      ]
+    ],
+    "ModelPath": "../powerups/missile.glb",
+    "Scale": "1, 1, 1",
+    "Children": []
+  }
+}

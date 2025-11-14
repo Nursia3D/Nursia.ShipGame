@@ -11,6 +11,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nursia;
+using Nursia.SceneGraph;
+using Nursia.SceneGraph.Cameras;
 using System;
 #endregion
 
@@ -37,6 +40,10 @@ namespace ShipGame
 		Texture2D[] textureMenu = new Texture2D[NumberMenuItems];
 		// menu textures with hover
 		Texture2D[] textureMenuHover = new Texture2D[NumberMenuItems];
+
+		public bool DrawBackground => true;
+
+		public StoredScene Scene3D => null;
 
 		public void Set()
 		{
@@ -141,13 +148,6 @@ namespace ShipGame
 		// draw 3D scene
 		public void Draw3D()
 		{
-			var gd = SG.GraphicsDevice;
-
-			// clear background
-			gd.Clear(Color.Black);
-
-			// draw background animation
-			SG.ScreenManager.DrawBackground();
 		}
 
 		// draw the animated cursor
@@ -186,7 +186,7 @@ namespace ShipGame
 		public void Draw2D(RenderContext2D context)
 		{
 			// screen rect
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			Rectangle rect = new Rectangle(gd.Viewport.X, gd.Viewport.Y,
 							gd.Viewport.Width, gd.Viewport.Height);
 

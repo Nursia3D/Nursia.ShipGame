@@ -2,6 +2,7 @@
 using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Nursia;
 using System;
 using System.Collections.Generic;
 
@@ -27,7 +28,7 @@ namespace ShipGame
 		/// </summary>
 		public RenderContext2D()
 		{
-			sprite = new SpriteBatch(SG.GraphicsDevice);
+			sprite = new SpriteBatch(Nrs.GraphicsDevice);
 			fonts = new List<SpriteFontBase>();
 			textMode = false;
 		}
@@ -58,7 +59,7 @@ namespace ShipGame
 		{
 			get
 			{
-				var graphics = SG.GraphicsDevice;
+				var graphics = Nrs.GraphicsDevice;
 				return new Rectangle(graphics.Viewport.X, graphics.Viewport.Y,
 					graphics.Viewport.Width, graphics.Viewport.Height);
 			}

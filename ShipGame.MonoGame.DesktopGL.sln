@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxCollider.MonoGame", "Shi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipGame.MonoGame.DesktopGL", "ShipGame.Desktop\ShipGame.MonoGame.DesktopGL.csproj", "{FF161717-72F6-D4EF-A4DE-C74063D20EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nursia.MonoGame", "..\Nursia\Nursia\Nursia.MonoGame.csproj", "{B2017286-1C10-5335-67CB-28087772CCDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FF161717-72F6-D4EF-A4DE-C74063D20EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF161717-72F6-D4EF-A4DE-C74063D20EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF161717-72F6-D4EF-A4DE-C74063D20EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2017286-1C10-5335-67CB-28087772CCDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2017286-1C10-5335-67CB-28087772CCDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2017286-1C10-5335-67CB-28087772CCDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2017286-1C10-5335-67CB-28087772CCDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

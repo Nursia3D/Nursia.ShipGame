@@ -12,6 +12,9 @@ using DigitalRiseModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nursia;
+using Nursia.SceneGraph;
+using Nursia.SceneGraph.Cameras;
 #endregion
 
 namespace ShipGame
@@ -29,6 +32,10 @@ namespace ShipGame
 		Texture2D textureContinue;    // texture with continue message
 
 		float elapsedTime;        // elapsed time for rotation animation
+
+		public bool DrawBackground => true;
+
+		public StoredScene Scene3D => throw new System.NotImplementedException();
 
 		public void Set()
 		{
@@ -104,12 +111,7 @@ namespace ShipGame
 		// draw 3D scene
 		public void Draw3D()
 		{
-			var gd = SG.GraphicsDevice;
-			// clear background
-			gd.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1, 0);
-
-			// draw background animation
-			SG.ScreenManager.DrawBackground();
+			var gd = Nrs.GraphicsDevice;
 
 			// screen aspect
 			float aspect = (float)gd.Viewport.Width / (float)gd.Viewport.Height;
@@ -161,7 +163,7 @@ namespace ShipGame
 		{
 			Rectangle rect = new Rectangle(0, 0, 0, 0);
 
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			int screenSizeX = gd.Viewport.Width;
 			int screenSizeY = gd.Viewport.Height;
 

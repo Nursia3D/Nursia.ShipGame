@@ -1,0 +1,66 @@
+{
+  "Camera": {
+    "$type": "Nursia.SceneGraph.Cameras.PerspectiveCamera, Nursia",
+    "ViewAngle": 90.0,
+    "AspectRatio": 0.9868928,
+    "NearPlaneDistance": 0.1,
+    "FarPlaneDistance": 1000.0,
+    "Translation": "-2.2046773, 34.367275, -119.55128",
+    "Scale": "1, 1, 1",
+    "Rotation": "333.29816, 179.59483, 0",
+    "Children": []
+  },
+  "RenderEnvironment": {
+    "AmbientLightColor": "#323232FF",
+    "FogColor": "LightGray",
+    "FogStart": 100.0,
+    "FogEnd": 1000.0
+  },
+  "Root": {
+    "Scale": "1, 1, 1",
+    "Children": [
+      {
+        "$type": "Nursia.SceneGraph.Cameras.PerspectiveCamera, Nursia",
+        "ViewAngle": 14.3,
+        "AspectRatio": 1.0,
+        "NearPlaneDistance": 1.0,
+        "FarPlaneDistance": 1000.0,
+        "Translation": "0, 240, -800",
+        "Scale": "1, 1, 1",
+        "Rotation": "344, 180, 0",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.SceneGraph.Lights.PointLight, Nursia",
+        "_range": 1000.0,
+        "Range": 1000.0,
+        "CastsShadow": false,
+        "ShadowIntensity": 0.6,
+        "Color": "White",
+        "MaxShadowDistance": 100.0,
+        "Translation": "-100, 100, 30",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.SceneGraph.Lights.PointLight, Nursia",
+        "_range": 1000.0,
+        "Range": 1000.0,
+        "CastsShadow": false,
+        "ShadowIntensity": 0.6,
+        "Color": "#4B4B4BFF",
+        "MaxShadowDistance": 100.0,
+        "Translation": "100, -100, -30",
+        "Scale": "1, 1, 1",
+        "Children": []
+      },
+      {
+        "$type": "Nursia.SceneGraph.SubsceneNode, Nursia",
+        "NodePath": "playerSelectShip.scene",
+        "Id": "_select",
+        "Scale": "1, 1, 1",
+        "Children": []
+      }
+    ]
+  }
+}

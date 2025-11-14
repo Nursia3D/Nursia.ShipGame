@@ -10,6 +10,7 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Nursia;
 using System;
 #endregion
 
@@ -74,7 +75,7 @@ namespace ShipGame
 			viewProjection = Matrix.CreateOrthographicOffCenter(0, sizeX, 0, sizeY, -1, 1);
 
 			// create vertex buffer
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			vertexBuffer = new VertexBuffer(gd, typeof(VertexPositionTexture),
 						6, BufferUsage.WriteOnly);
 
@@ -119,7 +120,7 @@ namespace ShipGame
 			BlurTechnique technique,
 			Texture2D texture, Vector4 color)
 		{
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			gd.SetVertexBuffer(vertexBuffer);
 
 			blurEffect.CurrentTechnique = blurEffect.Techniques[(int)technique];
@@ -142,7 +143,7 @@ namespace ShipGame
 		public void RenderScreenQuad(BlurTechnique technique,
 			Texture2D texture, Vector4 color, float scale)
 		{
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			gd.SetVertexBuffer(vertexBuffer);
 
 			blurEffect.CurrentTechnique = blurEffect.Techniques[(int)technique];

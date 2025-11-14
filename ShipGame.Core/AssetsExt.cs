@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Nursia;
+
 
 #if MONOGAME
 using MonoGame.Framework.Utilities;
@@ -53,13 +55,13 @@ namespace ShipGame
 
 		public static Texture2D LoadTexture2DDefault(this AssetManager manager, string assetName)
 		{
-			return manager.LoadTexture2D(SG.GraphicsDevice, assetName, premultiplyAlpha: true, colorKey: new Color(255, 0, 255, 255));
+			return manager.LoadTexture2D(Nrs.GraphicsDevice, assetName, premultiplyAlpha: true, colorKey: new Color(255, 0, 255, 255));
 		}
 
 		private static AssetLoader<DrModel> _modelLoader = (manager, assetName, settings, tag) =>
 		{
 			// Load gltf
-			var device = SG.GraphicsDevice;
+			var device = Nrs.GraphicsDevice;
 			var model = DigitalRiseModelAssetsExt.LoadModel(manager, device, Path.ChangeExtension(assetName, "glb"), ModelLoadFlags.EnsureUVs);
 
 			var materialName = Path.ChangeExtension(assetName, "material");
@@ -124,7 +126,7 @@ namespace ShipGame
 			}
 #endif
 
-			return manager.LoadEffect(SG.GraphicsDevice, path);
+			return manager.LoadEffect(Nrs.GraphicsDevice, path);
 		}
 
 	}

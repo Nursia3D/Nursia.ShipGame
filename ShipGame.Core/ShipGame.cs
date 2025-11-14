@@ -60,7 +60,7 @@ namespace ShipGame
 		/// </summary>
 		protected override void LoadContent()
 		{
-			SG.Initialize(GraphicsDevice);
+			SG.Initialize(this);
 		}
 
 

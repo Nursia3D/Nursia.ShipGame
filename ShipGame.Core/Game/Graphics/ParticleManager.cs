@@ -11,6 +11,7 @@
 using AssetManagementBase;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Nursia;
 using System;
 using System.Collections.Generic;
 #endregion
@@ -130,7 +131,7 @@ namespace ShipGame
 				return;
 
 			// enable alpha blending and disable depth write
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			gd.BlendState = BlendState.AlphaBlend;
 			gd.DepthStencilState = DepthStencilState.DepthRead;
 
@@ -226,7 +227,7 @@ namespace ShipGame
 			effectVelocityScale = effect.Parameters["VelocityScale"];
 
 			// create the vertex buffer
-			var gd = SG.GraphicsDevice;
+			var gd = Nrs.GraphicsDevice;
 			vertexBuffer = new VertexBuffer(gd, typeof(VertexPositionNormalTexture),
 								GameOptions.MaxParticles,
 								BufferUsage.WriteOnly | BufferUsage.None);

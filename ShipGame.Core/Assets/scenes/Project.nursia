@@ -1,0 +1,15 @@
+{
+  "Size": "2560, 1369",
+  "TopSplitterPosition": 0.29356357,
+  "LeftSplitterPosition": 0.5,
+  "OpenFiles": [
+    "D:\\Projects\\Nursia.ShipGame\\ShipGame.Core\\Assets\\scenes\\screenPlayer.scene",
+    "D:\\Projects\\Nursia.ShipGame\\ShipGame.Core\\Assets\\scenes\\screenPlayer2.scene",
+    "D:\\Projects\\Nursia.ShipGame\\ShipGame.Core\\Assets\\scenes\\playerSelectShip.scene",
+    "D:\\Projects\\Nursia.ShipGame\\ShipGame.Core\\Assets\\scenes\\level1.scene"
+  ],
+  "GraphicsSettings": {
+    "ShadowCascadeSize": "Size2048"
+  },
+  "DebugSettings": {}
+}
